@@ -1,0 +1,67 @@
+{
+  "identity": {
+    "name": "Joshua Powell",
+    "role": "Designer Artist Prop Fabricator",
+    "callsign": "JP · 5742",
+    "locationShort": "Albuquerque, NM",
+    "addressLine": "Albuquerque, NM 87102",
+    "hours": "",
+    "email": "robotjoshua@gmail.com",
+    "handle": "@robotjoshua",
+    "bio": "Film & TV commissions, convention & trade show design welcome.",
+    "available": true
+  },
+  "build": {
+    "production": "x29",
+    "prop": "DATUM-/TG",
+    "phases": [
+      "89S8-52-6EC64-52"
+    ],
+    "currentPhase": 0,
+    "pct": 5,
+    "due": "2026-05-12"
+  },
+  "skills": [
+    {
+      "cat": "SOFTWARE",
+      "items": [
+        { "k": "Adobe Photoshop", "v": 94, "t": "14Y" },
+        { "k": "Adobe Illustrator", "v": 92, "t": "8Y" },
+        { "k": "Adobe InDesign", "v": 78, "t": "05Y" },
+        { "k": "Blender · 3D", "v": 82, "t": "06Y" },
+        { "k": "Plasticity · CAD", "v": 58, "t": "02Y" }
+      ]
+    },
+    {
+      "cat": "CODE",
+      "items": [
+        { "k": "HTML / CSS", "v": 95, "t": "11Y" },
+        { "k": "JavaScript / TS", "v": 88, "t": "09Y" },
+        { "k": "React", "v": 85, "t": "07Y" },
+        { "k": "Three.js / WebGL", "v": 64, "t": "04Y" }
+      ]
+    }
+  ],
+  "cv": [
+    { "yr": "2026-2027", "t": "Dark Winds S5 · AMC", "s": "Santa Fe · Tesuque Pueblo · Pre-Production" },
+    { "yr": "2026", "t": "The Boroughs S1 · TV Series", "s": "NM locations · Pre-Production" },
+    { "yr": "2025-2026", "t": "Dark Winds S4 · AMC", "s": "Zahn McClarnon · Santa Fe · Tesuque Pueblo" },
+    { "yr": "2025", "t": "Alexander & the Terrible Road Trip · Disney", "s": "NM · Post-Production" },
+    { "yr": "2025", "t": "Good Grief · Feature", "s": "NM locations · Post-Production" },
+    { "yr": "2024-2025", "t": "The Cleaning Lady S4 · Fox / Warner Bros.", "s": "Élodie Yung · Albuquerque · Santa Fe" },
+    { "yr": "2024-2025", "t": "Eddington · A24", "s": "Dir. Ari Aster · Emma Stone · Pedro Pascal · Joaquin Phoenix · ABQ · T or C" },
+    { "yr": "2024-2025", "t": "Opus · A24", "s": "Ayo Edebiri · John Malkovich · NM" },
+    { "yr": "2024", "t": "The Cleaning Lady S3 · Fox / Warner Bros.", "s": "Élodie Yung · Albuquerque · Santa Fe" },
+    { "yr": "2024", "t": "Love Lies Bleeding · A24", "s": "Kristen Stewart · Katy O'Brian · Albuquerque" },
+    { "yr": "2024", "t": "The Smurfs Movie · Paramount", "s": "NM locations" },
+    { "yr": "2023-2025", "t": "American Primeval · Netflix", "s": "Taylor Kitsch · Peter Berg · Santa Clara / Cochiti Pueblo" },
+    { "yr": "2023-2025", "t": "Duster S1 · Bad Robot / J.J. Abrams", "s": "Josh Holloway · ABQ · Moriarty · Belen · Gallup" },
+    { "yr": "2023-2024", "t": "Outer Range S2 · Amazon Prime", "s": "Josh Brolin · Imogen Poots · Las Vegas NM" },
+    { "yr": "2023", "t": "The Cleaning Lady S2 · Fox / Warner Bros.", "s": "Élodie Yung · Albuquerque · Santa Fe" },
+    { "yr": "2022-2024", "t": "The Curse · Showtime / A24", "s": "Emma Stone · Nathan Fielder · Benny Safdie · Española" },
+    { "yr": "2022", "t": "The Cleaning Lady S1 · Fox / Warner Bros.", "s": "Élodie Yung · Albuquerque · Santa Fe" },
+    { "yr": "2022", "t": "Dust · Searchlight Pictures", "s": "Santa Fe · Stanley · Galisteo" },
+    { "yr": "2021-2022", "t": "Outer Range S1 · Amazon Prime", "s": "Josh Brolin · Imogen Poots · Las Vegas NM" },
+    { "yr": "2020-2022", "t": "Better Call Saul (Final Seasons) · AMC / Netflix", "s": "Bob Odenkirk · Rhea Seehorn · Vince Gilligan · Albuquerque · Santa Fe" }
+  ]
+}

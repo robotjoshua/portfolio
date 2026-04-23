@@ -1,0 +1,962 @@
+[
+  {
+    "id": "JP-001",
+    "index": 1,
+    "catNo": "redbread.jpg",
+    "title": "RED BREAD",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1080 × 1080 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawjgzz-redbread.webp",
+        "thumb": "/uploads/moawjgzz-redbread-thumb.webp",
+        "w": 1080,
+        "h": 1080,
+        "alt": "redbread.jpg"
+      }
+    ],
+    "createdAt": "2026-04-23T03:35:35.654Z",
+    "updatedAt": "2026-04-23T03:35:41.299Z"
+  },
+  {
+    "id": "JP-002",
+    "index": 2,
+    "catNo": "HELLOMONKEY.png",
+    "title": "HELLO MONKEY",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1754 × 1754 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawh6jx-hellomonkey.webp",
+        "thumb": "/uploads/moawh6jx-hellomonkey-thumb.webp",
+        "w": 1754,
+        "h": 1754,
+        "alt": "HELLOMONKEY.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:36:02.668Z",
+    "updatedAt": "2026-04-23T03:36:16.527Z"
+  },
+  {
+    "id": "JP-003",
+    "index": 3,
+    "catNo": "",
+    "title": "BOB",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1086 × 1086 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawexhd-2c391777-5182-49bb-bd88-244d25af34dc-1-1.webp",
+        "thumb": "/uploads/moawexhd-2c391777-5182-49bb-bd88-244d25af34dc-1-1-thumb.webp",
+        "w": 1086,
+        "h": 1086,
+        "alt": "2C391777-5182-49BB-BD88-244D25AF34DC_1_105_c.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:36:56.045Z",
+    "updatedAt": "2026-04-23T03:37:13.164Z"
+  },
+  {
+    "id": "JP-004",
+    "index": 4,
+    "catNo": "DIOSAKE.png",
+    "title": "DIO SAKE",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "3800 × 2800 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawgpal-diosake.webp",
+        "thumb": "/uploads/moawgpal-diosake-thumb.webp",
+        "w": 3800,
+        "h": 2800,
+        "alt": "DIOSAKE.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:37:47.320Z",
+    "updatedAt": "2026-04-23T03:37:53.634Z"
+  },
+  {
+    "id": "JP-005",
+    "index": 5,
+    "catNo": "rm442-10-04-g-mockup.png",
+    "title": "ARLAGER BEER",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "2814 × 3169 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawjjqk-rm442-10-04-g-mockup.webp",
+        "thumb": "/uploads/moawjjqk-rm442-10-04-g-mockup-thumb.webp",
+        "w": 2814,
+        "h": 3169,
+        "alt": "rm442-10-04-g-mockup.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:38:35.872Z",
+    "updatedAt": "2026-04-23T03:38:49.710Z"
+  },
+  {
+    "id": "JP-006",
+    "index": 6,
+    "catNo": "FRONT VIEW",
+    "title": "MOBILE RIG",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawibwz-img-7097.webp",
+        "thumb": "/uploads/moawibwz-img-7097-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_7097.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T03:39:18.508Z",
+    "updatedAt": "2026-04-23T03:39:44.242Z"
+  },
+  {
+    "id": "JP-008",
+    "index": 8,
+    "catNo": "IMG_0591.JPG",
+    "title": "QUIZSPIEL  BCS",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "2000 × 2000 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawhbod-img-0591.webp",
+        "thumb": "/uploads/moawhbod-img-0591-thumb.webp",
+        "w": 2000,
+        "h": 2000,
+        "alt": "IMG_0591.JPG"
+      }
+    ],
+    "createdAt": "2026-04-23T03:41:10.454Z",
+    "updatedAt": "2026-04-23T03:41:29.664Z"
+  },
+  {
+    "id": "JP-010",
+    "index": 10,
+    "catNo": "Artboard 1_11@4x.png",
+    "title": "DEAD GODS COMIC BOOK SPACE MAN",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1909 × 2953 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawfyza-artboard-1-11-4x.webp",
+        "thumb": "/uploads/moawfyza-artboard-1-11-4x-thumb.webp",
+        "w": 1909,
+        "h": 2953,
+        "alt": "Artboard 1_11@4x.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:43:19.972Z",
+    "updatedAt": "2026-04-23T03:43:43.018Z"
+  },
+  {
+    "id": "JP-011",
+    "index": 11,
+    "catNo": "IMG_2023.JPG",
+    "title": "CODE DEVICE CONCEPT",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1920 × 1920 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawhqnf-img-2023.webp",
+        "thumb": "/uploads/moawhqnf-img-2023-thumb.webp",
+        "w": 1920,
+        "h": 1920,
+        "alt": "IMG_2023.JPG"
+      }
+    ],
+    "createdAt": "2026-04-23T03:44:37.477Z",
+    "updatedAt": "2026-04-23T03:44:43.729Z"
+  },
+  {
+    "id": "JP-012",
+    "index": 12,
+    "catNo": "59791203-29A0-43FA-BA9E-1C54132A9A66.jpg",
+    "title": "THING",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "881 × 881 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawf5fx-59791203-29a0-43fa-ba9e-1c54132a9a66.webp",
+        "thumb": "/uploads/moawf5fx-59791203-29a0-43fa-ba9e-1c54132a9a66-thumb.webp",
+        "w": 881,
+        "h": 881,
+        "alt": "59791203-29A0-43FA-BA9E-1C54132A9A66.jpg"
+      }
+    ],
+    "createdAt": "2026-04-23T03:46:21.067Z",
+    "updatedAt": "2026-04-23T03:46:25.624Z"
+  },
+  {
+    "id": "JP-013",
+    "index": 13,
+    "catNo": "67934869556__AB0F7CB5-16CC-4510-99B9-FBDFB92011BC.jpeg",
+    "title": "RETRO REFIRB",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawfin0-67934869556-ab0f7cb5-16cc-4510-99b9-fbdf.webp",
+        "thumb": "/uploads/moawfin0-67934869556-ab0f7cb5-16cc-4510-99b9-fbdf-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "67934869556__AB0F7CB5-16CC-4510-99B9-FBDFB92011BC.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T03:46:56.910Z",
+    "updatedAt": "2026-04-23T03:47:17.319Z"
+  },
+  {
+    "id": "JP-014",
+    "index": 14,
+    "catNo": "7.png",
+    "title": "SHRIMP CHIPS",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "4000 × 4000 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawezjb-7.webp",
+        "thumb": "/uploads/moawezjb-7-thumb.webp",
+        "w": 4000,
+        "h": 4000,
+        "alt": "7.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:48:28.212Z",
+    "updatedAt": "2026-04-23T03:48:36.439Z"
+  },
+  {
+    "id": "JP-015",
+    "index": 15,
+    "catNo": "IMG_7015.PNG",
+    "title": "RUST",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1280 × 1280 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawib60-img-7015.webp",
+        "thumb": "/uploads/moawib60-img-7015-thumb.webp",
+        "w": 1280,
+        "h": 1280,
+        "alt": "IMG_7015.PNG"
+      }
+    ],
+    "createdAt": "2026-04-23T03:49:35.322Z",
+    "updatedAt": "2026-04-23T03:50:13.277Z"
+  },
+  {
+    "id": "JP-016",
+    "index": 16,
+    "catNo": "AddWishWash copy.png",
+    "title": "Add Wish Wash",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "612 × 792 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawfw4p-addwishwash-copy.webp",
+        "thumb": "/uploads/moawfw4p-addwishwash-copy-thumb.webp",
+        "w": 612,
+        "h": 792,
+        "alt": "AddWishWash copy.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:51:06.786Z",
+    "updatedAt": "2026-04-23T03:51:13.499Z"
+  },
+  {
+    "id": "JP-017",
+    "index": 17,
+    "catNo": "IMG_4500.jpeg",
+    "title": "RECREATION JOE. D",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi2ji-img-4500.webp",
+        "thumb": "/uploads/moawi2ji-img-4500-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_4500.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T03:51:53.582Z",
+    "updatedAt": "2026-04-23T03:52:03.337Z"
+  },
+  {
+    "id": "JP-018",
+    "index": 18,
+    "catNo": "HELLOGHOST.png",
+    "title": "HELLO GHOST",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1622 × 1622 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawh6ci-helloghost.webp",
+        "thumb": "/uploads/moawh6ci-helloghost-thumb.webp",
+        "w": 1622,
+        "h": 1622,
+        "alt": "HELLOGHOST.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:52:36.729Z",
+    "updatedAt": "2026-04-23T03:52:43.196Z"
+  },
+  {
+    "id": "JP-019",
+    "index": 19,
+    "catNo": "Screenshot 2025-04-17 at 3.00.54 PM.png",
+    "title": "PSYCHIC CARD GAME",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1136 × 744 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawjl1d-screenshot-2025-04-17-at-3-00-54-pm.webp",
+        "thumb": "/uploads/moawjl1d-screenshot-2025-04-17-at-3-00-54-pm-thumb.webp",
+        "w": 1136,
+        "h": 744,
+        "alt": "Screenshot 2025-04-17 at 3.00.54 PM.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:52:59.613Z",
+    "updatedAt": "2026-04-23T03:53:11.019Z"
+  },
+  {
+    "id": "JP-020",
+    "index": 20,
+    "catNo": "IMG_1797.JPG",
+    "title": "SAMUEL ",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "3500 × 3500 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawhf69-img-1797.webp",
+        "thumb": "/uploads/moawhf69-img-1797-thumb.webp",
+        "w": 3500,
+        "h": 3500,
+        "alt": "IMG_1797.JPG"
+      }
+    ],
+    "createdAt": "2026-04-23T03:54:22.763Z",
+    "updatedAt": "2026-04-23T03:54:27.296Z"
+  },
+  {
+    "id": "JP-021",
+    "index": 21,
+    "catNo": "IMG_6726.jpeg",
+    "title": "A PINK CHAIR",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1000 × 1000 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawiaq3-img-6726.webp",
+        "thumb": "/uploads/moawiaq3-img-6726-thumb.webp",
+        "w": 1000,
+        "h": 1000,
+        "alt": "IMG_6726.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T03:55:18.532Z",
+    "updatedAt": "2026-04-23T03:55:21.823Z"
+  },
+  {
+    "id": "JP-022",
+    "index": 22,
+    "catNo": "BLOODY CLOUD.png",
+    "title": "BLOODY CLOUD ",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "3800 × 2800 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawga3i-bloody-cloud.webp",
+        "thumb": "/uploads/moawga3i-bloody-cloud-thumb.webp",
+        "w": 3800,
+        "h": 2800,
+        "alt": "BLOODY CLOUD.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:56:18.718Z",
+    "updatedAt": "2026-04-23T03:56:22.366Z"
+  },
+  {
+    "id": "JP-023",
+    "index": 23,
+    "catNo": "IMG_4066.jpeg",
+    "title": "APOTHECARY",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi1fx-img-4066.webp",
+        "thumb": "/uploads/moawi1fx-img-4066-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_4066.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T03:56:58.099Z",
+    "updatedAt": "2026-04-23T03:57:45.047Z"
+  },
+  {
+    "id": "JP-024",
+    "index": 24,
+    "catNo": "07de4e37-9f1f-4266-9852-a2df8d93bc14.png",
+    "title": "MEDIC CONCEPT ",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1536 × 1536 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moajjwot-07de4e37-9f1f-4266-9852-a2df8d93bc14.webp",
+        "thumb": "/uploads/moajjwot-07de4e37-9f1f-4266-9852-a2df8d93bc14-thumb.webp",
+        "w": 1536,
+        "h": 1536,
+        "alt": "07de4e37-9f1f-4266-9852-a2df8d93bc14.png"
+      }
+    ],
+    "createdAt": "2026-04-23T03:58:35.484Z",
+    "updatedAt": "2026-04-23T03:58:42.923Z"
+  },
+  {
+    "id": "JP-025",
+    "index": 25,
+    "catNo": "0B573E9D-9A4E-4F2D-B6AA-58666CABEF43.jpg",
+    "title": "IT'S TIME TO WAKE UP",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1920 × 1920 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moaweue2-0b573e9d-9a4e-4f2d-b6aa-58666cabef43.webp",
+        "thumb": "/uploads/moaweue2-0b573e9d-9a4e-4f2d-b6aa-58666cabef43-thumb.webp",
+        "w": 1920,
+        "h": 1920,
+        "alt": "0B573E9D-9A4E-4F2D-B6AA-58666CABEF43.jpg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:01:14.478Z",
+    "updatedAt": "2026-04-23T04:01:27.808Z"
+  },
+  {
+    "id": "JP-026",
+    "index": 26,
+    "catNo": "art.png",
+    "title": "LANDSCAPE",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "UNSORTED",
+    "dims": "3000 × 2008 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawfxnn-art.webp",
+        "thumb": "/uploads/moawfxnn-art-thumb.webp",
+        "w": 3000,
+        "h": 2008,
+        "alt": "art.png"
+      }
+    ],
+    "createdAt": "2026-04-23T04:09:31.442Z",
+    "updatedAt": "2026-04-23T04:09:40.821Z"
+  },
+  {
+    "id": "JP-027",
+    "index": 27,
+    "catNo": "AA1C171C-22C4-4116-8609-17D334358107.jpg",
+    "title": "SAINT WHITE ",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "1024 × 1280 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moap783g-aa1c171c-22c4-4116-8609-17d334358107.webp",
+        "thumb": "/uploads/moap783g-aa1c171c-22c4-4116-8609-17d334358107-thumb.webp",
+        "w": 1024,
+        "h": 1280,
+        "alt": "AA1C171C-22C4-4116-8609-17D334358107.jpg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:10:09.877Z",
+    "updatedAt": "2026-04-23T04:10:24.100Z"
+  },
+  {
+    "id": "JP-028",
+    "index": 28,
+    "catNo": "IMG_6401.jpeg",
+    "title": "RETRO WRAP",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "UNSORTED",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi9le-img-6401.webp",
+        "thumb": "/uploads/moawi9le-img-6401-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_6401.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:11:00.744Z",
+    "updatedAt": "2026-04-23T04:11:02.050Z"
+  },
+  {
+    "id": "JP-029",
+    "index": 29,
+    "catNo": "IMG_5511.jpeg",
+    "title": "WACO LICENSES",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "UNSORTED",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi8kl-img-5511.webp",
+        "thumb": "/uploads/moawi8kl-img-5511-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_5511.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:11:14.627Z",
+    "updatedAt": "2026-04-23T04:11:20.262Z"
+  },
+  {
+    "id": "JP-030",
+    "index": 30,
+    "catNo": "IMG_5508.jpeg",
+    "title": "RENTAL SHEETS",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "UNSORTED",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi7i0-img-5508.webp",
+        "thumb": "/uploads/moawi7i0-img-5508-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_5508.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:11:38.775Z",
+    "updatedAt": "2026-04-23T04:11:38.775Z"
+  },
+  {
+    "id": "JP-031",
+    "index": 31,
+    "catNo": "IMG_6625.TIF",
+    "title": "BLENDER PLUG",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "UNSORTED",
+    "dims": "960 × 960 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawiamd-img-6625.webp",
+        "thumb": "/uploads/moawiamd-img-6625-thumb.webp",
+        "w": 960,
+        "h": 960,
+        "alt": "IMG_6625.TIF"
+      }
+    ],
+    "createdAt": "2026-04-23T04:11:52.295Z",
+    "updatedAt": "2026-04-23T04:11:56.889Z"
+  },
+  {
+    "id": "JP-032",
+    "index": 32,
+    "catNo": "IMG_5484.jpeg",
+    "title": "JAZMINE",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "UNSORTED",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi6ig-img-5484.webp",
+        "thumb": "/uploads/moawi6ig-img-5484-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_5484.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:12:13.905Z",
+    "updatedAt": "2026-04-23T04:12:16.155Z"
+  },
+  {
+    "id": "JP-033",
+    "index": 33,
+    "catNo": "IMG_5483.jpeg",
+    "title": "ROSE",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "UNSORTED",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi5kb-img-5483.webp",
+        "thumb": "/uploads/moawi5kb-img-5483-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_5483.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:12:23.160Z",
+    "updatedAt": "2026-04-23T04:12:25.130Z"
+  },
+  {
+    "id": "JP-034",
+    "index": 34,
+    "catNo": "IMG_5482.jpeg",
+    "title": "IMG_5482.jpeg",
+    "year": 2026,
+    "kind": "UNCLASSIFIED",
+    "production": "—",
+    "material": "—",
+    "finish": "—",
+    "status": "ARCHIVE",
+    "dims": "4032 × 3024 px",
+    "palette": [
+      "#888888",
+      "#aaaaaa",
+      "#555555"
+    ],
+    "note": "",
+    "images": [
+      {
+        "src": "/uploads/moawi4mf-img-5482.webp",
+        "thumb": "/uploads/moawi4mf-img-5482-thumb.webp",
+        "w": 4032,
+        "h": 3024,
+        "alt": "IMG_5482.jpeg"
+      }
+    ],
+    "createdAt": "2026-04-23T04:12:44.458Z",
+    "updatedAt": "2026-04-23T04:12:44.458Z"
+  }
+]
