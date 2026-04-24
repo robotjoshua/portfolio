@@ -140,16 +140,7 @@ export default async function IndexPage() {
             <span className="idx-contact-rail-sym">▣</span>
             Contact · 連絡
           </span>
-          <span className="idx-contact-rail-v">
-            {profile.identity.email}
-            <span className="idx-contact-rail-arr">→</span>
-          </span>
-          {profile.identity.handle && (
-            <span className="idx-contact-rail-sub">
-              {profile.identity.handle}
-              {profile.identity.hours && <> · {profile.identity.hours}</>}
-            </span>
-          )}
+          <span className="idx-contact-rail-arr">→</span>
         </Link>
 
         {/* RIGHT — FEATURED MOSAIC */}
