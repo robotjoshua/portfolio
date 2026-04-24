@@ -125,7 +125,7 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
       let res: Response;
       if (currentId.startsWith('U-')) {
         // Unclaimed upload — delete the underlying upload row + blobs.
-        const src = current.images[0]?.src ?? '';
+        const src = current.images?.[0]?.src ?? '';
         const match = src.match(/([^/]+\.webp)$/i);
         if (!match) throw new Error('no filename');
         res = await fetch(`/api/admin/uploads/${match[1]}`, { method: 'DELETE' });
