@@ -983,7 +983,7 @@ html[data-dark] .rc-ab-btn:hover{background:#fff;color:var(--ink);border-color:#
   .arch-side-head .arch-title,.aie-title{font-size:20px!important;}
   .arch-side-head .arch-sym{font-size:22px;}
   .acc-rel{grid-template-columns:repeat(3,1fr)!important;}
-  .term-bar{flex-wrap:wrap;row-gap:4px;font-size:11px;padding:6px 10px;}
+  .term-bar{flex-wrap:wrap;row-gap:4px;font-size:11px;padding:6px 10px;justify-content:center;}
   .tver{display:none;}
   .adm-wrap{padding:18px 12px;overflow-x:hidden;}
   .adm-h{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:12px;margin-bottom:16px;}
