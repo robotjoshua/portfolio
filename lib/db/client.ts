@@ -1,27 +1,30 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
+import { drizzle as drizzleHttp } from 'drizzle-orm/neon-http';
+import { drizzle as drizzlePg } from 'drizzle-orm/node-postgres';
+import { neon } from '@neondatabase/serverless';
 import { Pool } from 'pg';
 import * as schema from './schema';
 
-let _pool: Pool | null = null;
-let _db: ReturnType<typeof drizzle<typeof schema>> | null = null;
+type Db = ReturnType<typeof drizzlePg<typeof schema>>;
+let _db: Db | null = null;
 
-function getPool(): Pool {
-  if (_pool) return _pool;
+export function getDb(): Db {
+  if (_db) return _db;
   const url = process.env.DATABASE_URL;
   if (!url) {
     throw new Error(
       'DATABASE_URL is not set. Provision a Postgres database (Neon works free) and set DATABASE_URL in .env.local.'
     );
   }
-  // Neon requires SSL; most hosted Postgres do too. Local dev against plain postgres: set DATABASE_SSL=0.
-  const ssl = process.env.DATABASE_SSL === '0' ? false : { rejectUnauthorized: false };
-  _pool = new Pool({ connectionString: url, ssl, max: 4 });
-  return _pool;
-}
-
-export function getDb() {
-  if (_db) return _db;
-  _db = drizzle(getPool(), { schema });
+  // Prefer the Neon HTTP driver (works in serverless, no connection pools).
+  // Fall back to node-postgres for local or non-Neon databases.
+  if (/neon\.tech/.test(url)) {
+    const sql = neon(url);
+    _db = drizzleHttp(sql, { schema }) as unknown as Db;
+  } else {
+    const ssl = process.env.DATABASE_SSL === '0' ? false : { rejectUnauthorized: false };
+    const pool = new Pool({ connectionString: url, ssl, max: 4 });
+    _db = drizzlePg(pool, { schema });
+  }
   return _db;
 }
 
