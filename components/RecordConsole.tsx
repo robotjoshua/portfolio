@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import type { Artifact } from '@/types/artifact';
 import { Plate } from './Plate';
 
@@ -260,11 +261,17 @@ function Crosshair({ seed }: { seed: number }) {
   );
 }
 
+const SCAN_VARIANTS = ['sweep', 'reticle', 'pulse', 'glitch', 'hsweep', 'grid', 'chroma', 'static', 'pixelate', 'xerox'] as const;
+type ScanVariant = typeof SCAN_VARIANTS[number];
+
 function AnalysisBay({ artifacts }: { artifacts: Artifact[] }) {
   const [idx, setIdx] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [scanning, setScanning] = useState(false);
+  const [scanVar, setScanVar] = useState<ScanVariant>('sweep');
+  const [scanKey, setScanKey] = useState(0); // restart keyframes even on repeat variant
   const idxRef = useRef(0);
+  const scanEndTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tick = useTick(1400);
 
   useEffect(() => {
@@ -277,20 +284,51 @@ function AnalysisBay({ artifacts }: { artifacts: Artifact[] }) {
   }, [artifacts.length]);
 
   function next() {
-    if (artifacts.length < 2) return;
-    const n = (idxRef.current + 1) % artifacts.length;
-    idxRef.current = n;
-    setScanning(true);
-    setIdx(n);
-    setTimeout(() => setScanning(false), 260);
+    // Always fire an effect, even with 0–1 artifacts. With ≥2, advance to a
+    // different random artifact. With <2 we still play the scan animation so
+    // the click always produces visual feedback.
+    if (artifacts.length >= 2) {
+      let n = Math.floor(Math.random() * artifacts.length);
+      if (n === idxRef.current) n = (n + 1) % artifacts.length;
+      idxRef.current = n;
+      setIdx(n);
+    }
+
+    // Pick a fresh variant, different from the previous one if possible so
+    // rapid clicks don't look like the same effect twice.
+    let v = SCAN_VARIANTS[Math.floor(Math.random() * SCAN_VARIANTS.length)];
+    if (SCAN_VARIANTS.length > 1 && v === scanVar) {
+      v = SCAN_VARIANTS[(SCAN_VARIANTS.indexOf(v) + 1) % SCAN_VARIANTS.length];
+    }
+
+    // Force the scanning class off for a frame so CSS keyframes restart
+    // cleanly even when the same click happens mid-animation.
+    if (scanEndTimer.current) clearTimeout(scanEndTimer.current);
+    setScanning(false);
+    setScanVar(v);
+    setScanKey((k) => k + 1);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setScanning(true);
+        scanEndTimer.current = setTimeout(() => setScanning(false), 900);
+      });
+    });
   }
+
+  useEffect(() => () => {
+    if (scanEndTimer.current) clearTimeout(scanEndTimer.current);
+  }, []);
 
   const a = artifacts[idx];
   if (!a) {
     return (
       <div className="rc-panel rc-ab rc-ab-empty">
         <div className="rc-ab-top">
-          <span className="rc-ab-top-k">CH.00 · ANALYSIS BAY</span>
+          <span className="rc-ab-top-k">
+            <span className="rc-ab-top-ch">CH.00</span>
+            <span className="rc-ab-top-t">Analysis Bay</span>
+            <span className="rc-ab-top-j">観</span>
+          </span>
           <span className="rc-ab-top-sp">·</span>
           <span className="rc-ab-top-v">SPEC 000 / 000</span>
           <span className="rc-ab-top-fl" />
@@ -329,16 +367,52 @@ function AnalysisBay({ artifacts }: { artifacts: Artifact[] }) {
   ];
 
   return (
-    <div className={`rc-panel rc-ab${scanning ? ' scanning' : ''}`}>
+    <div className={`rc-panel rc-ab${scanning ? ` scanning scan-${scanVar}` : ''}`}>
+      {/* inline SVG pixel filters used by scan-pixelate variant */}
+      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden>
+        <defs>
+          <filter id="rc-pix-32" x="0" y="0">
+            <feFlood x="8" y="8" height="16" width="16" />
+            <feComposite width="32" height="32" />
+            <feTile result="a" />
+            <feComposite in="SourceGraphic" in2="a" operator="in" />
+            <feMorphology operator="dilate" radius="16" />
+          </filter>
+          <filter id="rc-pix-16" x="0" y="0">
+            <feFlood x="4" y="4" height="8" width="8" />
+            <feComposite width="16" height="16" />
+            <feTile result="a" />
+            <feComposite in="SourceGraphic" in2="a" operator="in" />
+            <feMorphology operator="dilate" radius="8" />
+          </filter>
+          <filter id="rc-pix-8" x="0" y="0">
+            <feFlood x="2" y="2" height="4" width="4" />
+            <feComposite width="8" height="8" />
+            <feTile result="a" />
+            <feComposite in="SourceGraphic" in2="a" operator="in" />
+            <feMorphology operator="dilate" radius="4" />
+          </filter>
+          <filter id="rc-pix-4" x="0" y="0">
+            <feFlood x="1" y="1" height="2" width="2" />
+            <feComposite width="4" height="4" />
+            <feTile result="a" />
+            <feComposite in="SourceGraphic" in2="a" operator="in" />
+            <feMorphology operator="dilate" radius="2" />
+          </filter>
+        </defs>
+      </svg>
       <div className="rc-ab-top">
-        <span className="rc-ab-top-k">CH.00 · ANALYSIS BAY</span>
+        <span className="rc-ab-top-k">
+          <span className="rc-ab-top-ch">CH.00</span>
+          <span className="rc-ab-top-t">Analysis Bay</span>
+          <span className="rc-ab-top-j">観</span>
+        </span>
         <span className="rc-ab-top-sp">·</span>
         <span className="rc-ab-top-v">SPEC {mounted ? (idx + 1).toString().padStart(3, '0') : '—'} / {artifacts.length.toString().padStart(3, '0')}</span>
         <span className="rc-ab-top-sp">·</span>
         <span className="rc-ab-top-v">PHASE {phases[phaseIdx]}</span>
         <span className="rc-ab-top-fl" />
         <span className="rc-ab-top-v">STATUS {scanning ? 'SCAN' : 'HOLD'}</span>
-        <button type="button" className="rc-ab-btn" onClick={next}>⟲ SCAN</button>
       </div>
       <div className="rc-ab-left">
         <div className="rc-ab-plate">
@@ -346,12 +420,38 @@ function AnalysisBay({ artifacts }: { artifacts: Artifact[] }) {
           <span className="rc-ab-corner tr" />
           <span className="rc-ab-corner bl" />
           <span className="rc-ab-corner br" />
-          <Plate a={a} />
-          <div className="rc-ab-scan" />
+          <Link
+            href={`/archive/${a.id}`}
+            className="rc-ab-plate-inner rc-ab-plate-link"
+            aria-label={`Open ${a.title}`}
+            title={`Open ${a.title}`}
+          >
+            <Plate a={a} fit="contain" size="full" priority />
+          </Link>
+          <div className="rc-ab-scan" key={`s1-${scanKey}`} />
+          <div className="rc-ab-scan-2" key={`s2-${scanKey}`} />
+          <div className="rc-ab-scan-reticle" key={`r-${scanKey}`}>
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className="rc-ab-scan-noise" key={`n-${scanKey}`} />
+          <div className="rc-ab-scan-readout" key={`v-${scanKey}`}>
+            <span>{scanning ? scanVar.toUpperCase() : ''}</span>
+          </div>
           <div className="rc-ab-plate-id">
             <span>{a.id}</span>
             <span>{a.catNo}</span>
           </div>
+        </div>
+        <div className="rc-ab-ctrl">
+          <span className="rc-ab-ctrl-k">
+            <span className="rc-ab-ctrl-d" />
+            SPEC {mounted ? (idx + 1).toString().padStart(3, '0') : '—'}
+          </span>
+          <span className="rc-ab-ctrl-sub">走査 · SCAN {mounted ? phases[phaseIdx] : '—'}</span>
+          <button type="button" className="rc-ab-btn" onClick={next}>⟲ SCAN</button>
         </div>
       </div>
       <div className="rc-ab-right">
@@ -441,7 +541,11 @@ export function RecordConsole({ artifacts }: { artifacts: Artifact[] }) {
         <AnalysisBay artifacts={artifacts} />
         <div className="rc-panel rc-p-a">
           <div className="rc-h">
-            <span>CH.01 · Kiln Runtime</span>
+            <span className="rc-h-k">
+              <span className="rc-h-ch">CH.01</span>
+              <span className="rc-h-t">Kiln Runtime</span>
+              <span className="rc-h-j">窯</span>
+            </span>
             <span className="rc-live">● Live</span>
           </div>
           <div className="rc-big">
@@ -458,7 +562,11 @@ export function RecordConsole({ artifacts }: { artifacts: Artifact[] }) {
 
         <div className="rc-panel rc-p-b">
           <div className="rc-h">
-            <span>CH.02 · Spectral Scan</span>
+            <span className="rc-h-k">
+              <span className="rc-h-ch">CH.02</span>
+              <span className="rc-h-t">Spectral Scan</span>
+              <span className="rc-h-j">波</span>
+            </span>
             <span className="rc-live">● Live</span>
           </div>
           <Bars seed={202} count={22} />
@@ -470,7 +578,11 @@ export function RecordConsole({ artifacts }: { artifacts: Artifact[] }) {
 
         <div className="rc-panel rc-p-c">
           <div className="rc-h">
-            <span>CH.03 · Origin Track</span>
+            <span className="rc-h-k">
+              <span className="rc-h-ch">CH.03</span>
+              <span className="rc-h-t">Origin Track</span>
+              <span className="rc-h-j">軌</span>
+            </span>
             <span className="rc-live">● Live</span>
           </div>
           <Crosshair seed={303} />
@@ -482,7 +594,11 @@ export function RecordConsole({ artifacts }: { artifacts: Artifact[] }) {
 
         <div className="rc-panel rc-p-d">
           <div className="rc-h">
-            <span>CH.04 · Event Log</span>
+            <span className="rc-h-k">
+              <span className="rc-h-ch">CH.04</span>
+              <span className="rc-h-t">Event Log</span>
+              <span className="rc-h-j">録</span>
+            </span>
             <span className="rc-live">● Live</span>
           </div>
           <EventLog artifacts={artifacts} />
@@ -490,7 +606,11 @@ export function RecordConsole({ artifacts }: { artifacts: Artifact[] }) {
 
         <div className="rc-panel rc-p-e">
           <div className="rc-h">
-            <span>CH.05 · Flux</span>
+            <span className="rc-h-k">
+              <span className="rc-h-ch">CH.05</span>
+              <span className="rc-h-t">Flux</span>
+              <span className="rc-h-j">流</span>
+            </span>
             <span className="rc-live">● Live</span>
           </div>
           <Sparkline seed={505} color="var(--accent)" />
@@ -502,7 +622,11 @@ export function RecordConsole({ artifacts }: { artifacts: Artifact[] }) {
 
         <div className="rc-panel rc-p-f">
           <div className="rc-h">
-            <span>CH.06 · Archive</span>
+            <span className="rc-h-k">
+              <span className="rc-h-ch">CH.06</span>
+              <span className="rc-h-t">Archive</span>
+              <span className="rc-h-j">蔵</span>
+            </span>
             <span className="rc-sub">{artifacts.length}</span>
           </div>
           <div className="rc-stat">

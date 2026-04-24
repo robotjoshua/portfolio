@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import Papa from 'papaparse';
 import { readArtifacts, writeArtifacts } from '@/lib/artifacts-server';
 import type { Artifact } from '@/types/artifact';
-import { guardDev } from '../_guard';
+import { guardAdmin } from '../_guard';
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 type Mode = 'merge' | 'replace';
@@ -47,7 +48,7 @@ function coerceArtifact(row: Record<string, unknown>, fallbackIndex: number): Ar
 }
 
 export async function POST(req: NextRequest) {
-  const blocked = guardDev();
+  const blocked = await guardAdmin(req);
   if (blocked) return blocked;
 
   const body = (await req.json()) as ImportBody;

@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { readProfile } from '@/lib/profile-server';
 import { ProfileForm } from '@/components/admin/ProfileForm';
@@ -6,7 +5,6 @@ import { ProfileForm } from '@/components/admin/ProfileForm';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminProfilePage() {
-  if (process.env.NODE_ENV === 'production') notFound();
   const profile = await readProfile();
   return (
     <div className="adm-wrap">

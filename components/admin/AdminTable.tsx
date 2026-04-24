@@ -87,6 +87,7 @@ export function AdminTable({ artifacts }: { artifacts: Artifact[] }) {
         </div>
       </div>
 
+      <div className="adm-table-wrap">
       <table className="adm-table">
         <thead>
           <tr>
@@ -138,6 +139,7 @@ export function AdminTable({ artifacts }: { artifacts: Artifact[] }) {
           })}
         </tbody>
       </table>
+      </div>
     </>
   );
 }

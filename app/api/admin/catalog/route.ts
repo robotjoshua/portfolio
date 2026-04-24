@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
 import exifr from 'exifr';
-import { guardDev } from '../_guard';
+import { guardAdmin } from '../_guard';
+import { getImage } from '@/lib/blobs';
 import type { Kind } from '@/types/artifact';
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // ─── types ────────────────────────────────────────────────────────────────────
@@ -62,8 +63,10 @@ function titleFromFilename(filename: string): string {
 // Extract 3 palette colors by sampling top, middle, bottom thirds
 async function extractPalette(buf: Buffer): Promise<[string, string, string]> {
   try {
-    const { width, height } = await sharp(buf).metadata();
-    if (!width || !height) throw new Error('no dimensions');
+    const meta = await sharp(buf).metadata();
+    if (!meta.width || !meta.height) throw new Error('no dimensions');
+    const width: number = meta.width;
+    const height: number = meta.height;
     const third = Math.floor(height / 3);
 
     async function regionColor(top: number, h: number): Promise<string> {
@@ -264,8 +267,18 @@ async function analyzeClaude(buf: Buffer, filename: string, context: string): Pr
 
 // ─── route ────────────────────────────────────────────────────────────────────
 
+function srcToBlobKey(src: string): string | null {
+  const blob = src.match(/^\/api\/img\/(.+)$/);
+  if (blob) return decodeURIComponent(blob[1]).split('/').map((s) => decodeURIComponent(s)).join('/');
+  const uploads = src.match(/^\/uploads\/(.+)$/);
+  if (uploads) return `uploads/${uploads[1]}`;
+  const arts = src.match(/^\/artifacts\/(.+)$/);
+  if (arts) return `artifacts/${arts[1]}`;
+  return null;
+}
+
 export async function POST(req: NextRequest) {
-  const blocked = guardDev();
+  const blocked = await guardAdmin(req);
   if (blocked) return blocked;
 
   const body = (await req.json()) as { src: string; context?: string; mode?: 'auto' | 'local' | 'claude' | 'fiction' };
@@ -273,15 +286,13 @@ export async function POST(req: NextRequest) {
   const context = (body.context ?? '').trim();
   const mode = body.mode ?? 'auto';
 
-  const filePath = path.join(process.cwd(), 'public', body.src);
-  let buf: Buffer;
-  try {
-    buf = await fs.readFile(filePath);
-  } catch {
-    return NextResponse.json({ error: 'file not found' }, { status: 404 });
-  }
+  const key = srcToBlobKey(body.src);
+  if (!key) return NextResponse.json({ error: 'unsupported src' }, { status: 400 });
+  const hit = await getImage(key);
+  if (!hit) return NextResponse.json({ error: 'file not found' }, { status: 404 });
+  const buf = hit.body;
 
-  const filename = path.basename(body.src);
+  const filename = path.basename(key);
 
   try {
     let result: CatalogResult;

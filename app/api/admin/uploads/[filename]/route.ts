@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import { removeUpload } from '@/lib/uploads-server';
-import { guardDev } from '../../_guard';
+import { deleteImage } from '@/lib/blobs';
+import { guardAdmin } from '../../_guard';
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function DELETE(
-  _req: NextRequest,
+  req: NextRequest,
   ctx: { params: Promise<{ filename: string }> },
 ) {
-  const blocked = guardDev();
+  const blocked = await guardAdmin(req);
   if (blocked) return blocked;
 
   const { filename } = await ctx.params;
@@ -21,11 +21,10 @@ export async function DELETE(
   const removed = await removeUpload(filename);
   if (!removed) return NextResponse.json({ error: 'not found' }, { status: 404 });
 
-  const dir = path.join(process.cwd(), 'public', 'uploads');
   const base = filename.replace(/\.webp$/i, '');
   await Promise.allSettled([
-    fs.unlink(path.join(dir, filename)),
-    fs.unlink(path.join(dir, `${base}-thumb.webp`)),
+    deleteImage(`uploads/${filename}`),
+    deleteImage(`uploads/${base}-thumb.webp`),
   ]);
 
   return NextResponse.json({ ok: true });

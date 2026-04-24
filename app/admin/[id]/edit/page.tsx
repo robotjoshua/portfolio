@@ -10,7 +10,6 @@ export default async function EditArtifactPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  if (process.env.NODE_ENV === 'production') notFound();
   const { id } = await params;
   const rec = await getArtifact(id);
   if (!rec) notFound();

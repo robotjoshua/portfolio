@@ -1,37 +1,62 @@
 import 'server-only';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
+import { desc, eq } from 'drizzle-orm';
+import { getDb, schema } from './db/client';
 import type { UploadedFile } from '@/types/upload';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'uploads.json');
+function rowToUpload(row: typeof schema.uploads.$inferSelect): UploadedFile {
+  return {
+    filename: row.filename,
+    originalName: row.originalName,
+    src: row.src,
+    thumb: row.thumb,
+    size: row.size ?? 0,
+    w: row.w ?? undefined,
+    h: row.h ?? undefined,
+    uploadedAt: row.uploadedAt.toISOString(),
+  };
+}
 
 export async function readUploads(): Promise<UploadedFile[]> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, 'utf8');
-    const parsed = JSON.parse(raw) as UploadedFile[];
-    return parsed.slice().sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt));
-  } catch (err: unknown) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return [];
-    throw err;
-  }
+  const db = getDb();
+  const rows = await db.select().from(schema.uploads).orderBy(desc(schema.uploads.uploadedAt));
+  return rows.map(rowToUpload);
 }
 
 export async function writeUploads(list: UploadedFile[]): Promise<void> {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(list, null, 2) + '\n', 'utf8');
+  const db = getDb();
+  await db.transaction(async (tx) => {
+    await tx.delete(schema.uploads);
+    if (list.length) {
+      await tx.insert(schema.uploads).values(list.map((f) => ({
+        filename: f.filename,
+        originalName: f.originalName,
+        src: f.src,
+        thumb: f.thumb,
+        size: f.size ?? 0,
+        w: f.w ?? null,
+        h: f.h ?? null,
+        uploadedAt: new Date(f.uploadedAt),
+      })));
+    }
+  });
 }
 
 export async function appendUpload(file: UploadedFile): Promise<void> {
-  const all = await readUploads();
-  all.push(file);
-  await writeUploads(all);
+  const db = getDb();
+  await db.insert(schema.uploads).values({
+    filename: file.filename,
+    originalName: file.originalName,
+    src: file.src,
+    thumb: file.thumb,
+    size: file.size ?? 0,
+    w: file.w ?? null,
+    h: file.h ?? null,
+    uploadedAt: new Date(file.uploadedAt),
+  }).onConflictDoNothing();
 }
 
 export async function removeUpload(filename: string): Promise<UploadedFile | null> {
-  const all = await readUploads();
-  const idx = all.findIndex((f) => f.filename === filename);
-  if (idx === -1) return null;
-  const [removed] = all.splice(idx, 1);
-  await writeUploads(all);
-  return removed;
+  const db = getDb();
+  const [row] = await db.delete(schema.uploads).where(eq(schema.uploads.filename, filename)).returning();
+  return row ? rowToUpload(row) : null;
 }

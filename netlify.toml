@@ -1,12 +1,13 @@
 [build]
   command = "npm run build"
-  publish = "out"
 
 [build.environment]
-  BUILD_TARGET = "export"
   NODE_VERSION = "20"
 
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 [[headers]]
-  for = "/artifacts/*"
+  for = "/api/img/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"

@@ -61,11 +61,19 @@ export function DataTicker() {
   ));
 
   return (
-    <div className="dt-bar" aria-hidden="true">
-      <div className="dt-track">
-        <div className="dt-row">{entries}</div>
-        <div className="dt-row">{entries}</div>
+    <>
+      <div className="dt-vl" aria-hidden="true">
+        <div className="dt-vtrack">
+          <div className="dt-vcol">{entries}</div>
+          <div className="dt-vcol">{entries}</div>
+        </div>
       </div>
-    </div>
+      <div className="dt-vr" aria-hidden="true">
+        <div className="dt-vtrack dt-vtrack-r">
+          <div className="dt-vcol">{entries}</div>
+          <div className="dt-vcol">{entries}</div>
+        </div>
+      </div>
+    </>
   );
 }

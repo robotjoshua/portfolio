@@ -1,30 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import sharp from 'sharp';
-import { readArtifacts, writeArtifacts } from '@/lib/artifacts-server';
+import { getArtifact, upsertArtifact } from '@/lib/artifacts-server';
+import { putImage, imgUrl } from '@/lib/blobs';
 import type { ArtifactImage } from '@/types/artifact';
-import { guardDev } from '../_guard';
+import { guardAdmin } from '../_guard';
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest) {
-  const blocked = guardDev();
+  const blocked = await guardAdmin(req);
   if (blocked) return blocked;
 
   const form = await req.formData();
   const id = String(form.get('id') || '');
   if (!id) return NextResponse.json({ error: 'missing id' }, { status: 400 });
 
-  const all = await readArtifacts();
-  const rec = all.find((a) => a.id === id);
+  const rec = await getArtifact(id);
   if (!rec) return NextResponse.json({ error: 'artifact not found' }, { status: 404 });
 
   const files = form.getAll('files').filter((f): f is File => f instanceof File);
   if (files.length === 0) return NextResponse.json({ error: 'no files' }, { status: 400 });
-
-  const dir = path.join(process.cwd(), 'public', 'artifacts', id);
-  await fs.mkdir(dir, { recursive: true });
 
   const added: ArtifactImage[] = [];
   const existingCount = rec.images?.length ?? 0;
@@ -37,8 +33,6 @@ export async function POST(req: NextRequest) {
     const fullName = `${base}.webp`;
     const thumbName = `${base}-thumb.webp`;
 
-    // Separate sharp instances for each operation — reusing one instance after
-    // a terminal call (.metadata / .toFile) produces corrupt or empty output.
     let meta: sharp.Metadata;
     try {
       meta = await sharp(buf).metadata();
@@ -63,12 +57,14 @@ export async function POST(req: NextRequest) {
       thumbBuf = fullBuf;
     }
 
-    await fs.writeFile(path.join(dir, fullName), fullBuf);
-    await fs.writeFile(path.join(dir, thumbName), thumbBuf);
+    const fullKey = `artifacts/${id}/${fullName}`;
+    const thumbKey = `artifacts/${id}/${thumbName}`;
+    await putImage(fullKey, fullBuf, 'image/webp');
+    await putImage(thumbKey, thumbBuf, 'image/webp');
 
     added.push({
-      src: `/artifacts/${id}/${fullName}`,
-      thumb: `/artifacts/${id}/${thumbName}`,
+      src: imgUrl(fullKey),
+      thumb: imgUrl(thumbKey),
       w: meta.width,
       h: meta.height,
     });
@@ -78,9 +74,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'all files failed to process' }, { status: 422 });
   }
 
-  rec.images = [...(rec.images ?? []), ...added];
-  rec.updatedAt = new Date().toISOString();
-  await writeArtifacts(all);
+  const updated = {
+    ...rec,
+    images: [...(rec.images ?? []), ...added],
+    updatedAt: new Date().toISOString(),
+  };
+  await upsertArtifact(updated);
 
-  return NextResponse.json({ images: rec.images });
+  return NextResponse.json({ images: updated.images });
 }

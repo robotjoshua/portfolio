@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { readArtifacts } from '@/lib/artifacts-server';
 import { GalleryGrid } from '@/components/GalleryGrid';
 import { NumScramble } from '@/components/NumScramble';
-import { TelemetryPanel } from '@/components/TelemetryPanel';
-import { Rain8Bit } from '@/components/Rain8Bit';
+import { ViewerFrame } from '@/components/ViewerFrame';
 import { readProfile } from '@/lib/profile-server';
 import { pad } from '@/lib/kinds';
+
+export const dynamic = 'force-dynamic';
 
 export default async function IndexPage() {
   const [artifacts, profile] = await Promise.all([readArtifacts(), readProfile()]);
@@ -14,119 +15,151 @@ export default async function IndexPage() {
   const FIRST = NAME_PARTS[0] ?? profile.identity.name;
   const LAST = NAME_PARTS.slice(1).join(' ');
 
+  const nowLabel = new Date().toISOString().slice(0, 10);
+  const artifactCount = artifacts.length;
+  const creditCount = (profile.cv ?? []).length;
+  const recordChapters = 8;
+
   return (
-    <div className="pw idx-wrap">
-      <div className="idx-left">
-        <div style={{ paddingBottom: 14, borderBottom: '1px solid var(--rule)', marginBottom: 14 }}>
-          <div
-            style={{
-              fontFamily: 'var(--f-m)',
-              fontSize: 8,
-              letterSpacing: '.2em',
-              textTransform: 'uppercase',
-              color: 'var(--muted)',
-              marginBottom: 9,
-            }}
-          >
-            {profile.identity.callsign}
-          </div>
-          <div className="idx-name">
-            {FIRST}
-            {LAST ? <><br />{LAST}</> : null}
-          </div>
-          <div
-            style={{
-              fontFamily: 'var(--f-m)',
-              fontSize: 9,
-              letterSpacing: '.14em',
-              textTransform: 'uppercase',
-              color: 'var(--muted)',
-              marginTop: 10,
-            }}
-          >
-            {profile.identity.role}
-          </div>
-        </div>
-        <TelemetryPanel />
-        <Rain8Bit />
-        <div style={{ marginTop: 'auto', paddingTop: 14, borderTop: '1px solid var(--rule)' }}>
-          <div
-            style={{
-              fontFamily: 'var(--f-m)',
-              fontSize: 8,
-              letterSpacing: '.16em',
-              textTransform: 'uppercase',
-              color: 'var(--muted)',
-              marginBottom: 8,
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <span>Active Build</span>
-            <span className="d-live">● Live</span>
-          </div>
-          <div
-            style={{
-              fontFamily: 'var(--f-m)',
-              fontSize: 8,
-              letterSpacing: '.1em',
-              color: 'var(--muted)',
-              textTransform: 'uppercase',
-              marginBottom: 3,
-            }}
-          >
-            {BUILD.production}
-          </div>
-          <div
-            style={{
-              fontFamily: 'var(--f-d)',
-              fontWeight: 500,
-              fontSize: 14,
-              letterSpacing: '-.02em',
-              marginBottom: 9,
-            }}
-          >
-            {BUILD.prop}
-          </div>
-          <div className="d-segs" style={{ marginBottom: 8 }}>
-            {BUILD.phases.map((p, i) => (
-              <div
-                key={p}
-                className={`d-seg${
-                  i < BUILD.currentPhase ? ' done' : i === BUILD.currentPhase ? ' act' : ' todo'
-                }`}
-              >
-                {p}
+    <ViewerFrame
+      tag={`◆ ${profile.identity.callsign}`}
+      title="INDEX · OPERATOR PROFILE"
+      meta={`${pad(artifactCount, 3)} ARTIFACTS`}
+      leftRail={['INDEX', nowLabel]}
+      rightRail={['LIVE', BUILD.production]}
+      currentLabel="INDEX"
+      next={[
+        { label: 'CATALOG', href: '/catalog' },
+        { label: 'RECORD', href: '/record' },
+        { label: 'OPERATOR', href: '/operator' },
+      ]}
+    >
+      <div className="idx-wrap idx-wrap-inner">
+        <div className="idx-left">
+          {/* MASTHEAD */}
+          <div className="idx-mast">
+            <div className="idx-mast-tag">
+              <span>{profile.identity.callsign}</span>
+              {profile.identity.locationShort && (
+                <>
+                  <span className="idx-mast-dot">·</span>
+                  <span>{profile.identity.locationShort}</span>
+                </>
+              )}
+            </div>
+            <div className="idx-name">
+              {FIRST}
+              {LAST ? (
+                <>
+                  <br />
+                  {LAST}
+                </>
+              ) : null}
+            </div>
+            <div className="idx-mast-role">{profile.identity.role}</div>
+            {profile.identity.available && (
+              <div className="idx-mast-avail">
+                <span className="idx-mast-avail-d" />
+                Available for commission
               </div>
-            ))}
+            )}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <span
-              style={{
-                fontFamily: 'var(--f-m)',
-                fontSize: 8,
-                letterSpacing: '.1em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              Due · {BUILD.due}
+
+          {/* LEDE */}
+          <p className="idx-lede">{profile.identity.bio}</p>
+
+          {/* IN THE SHOP */}
+          <section className="idx-sec">
+            <header className="idx-sec-h">
+              <span className="idx-sec-i">◎</span>
+              <span>
+                <b>In the Shop</b>
+                <i>作業中</i>
+              </span>
+              <span className="idx-sec-live">● LIVE</span>
+            </header>
+            <div className="idx-shop">
+              <div className="idx-shop-prod">{BUILD.production}</div>
+              <div className="idx-shop-prop">{BUILD.prop}</div>
+              <div className="idx-shop-meta">
+                <span>Due · {BUILD.due}</span>
+                <span>
+                  Phase {pad((BUILD.currentPhase ?? 0) + 1, 2)}/{pad(BUILD.phases.length, 2)}
+                </span>
+              </div>
+              <div className="idx-shop-bar" aria-hidden>
+                <span style={{ width: `${Math.max(0, Math.min(100, BUILD.pct ?? 0))}%` }} />
+              </div>
+              <div className="idx-shop-pct">{pad(BUILD.pct ?? 0, 2)}%</div>
+            </div>
+          </section>
+
+          {/* DIRECTORY */}
+          <section className="idx-sec">
+            <header className="idx-sec-h">
+              <span className="idx-sec-i">◇</span>
+              <span>
+                <b>Directory</b>
+                <i>目次</i>
+              </span>
+            </header>
+            <nav className="idx-dir">
+              <Link href="/catalog" className="idx-dir-row">
+                <span className="idx-dir-n">I.</span>
+                <span className="idx-dir-k">Catalog</span>
+                <span className="idx-dir-sep" />
+                <span className="idx-dir-v">
+                  <NumScramble value={pad(artifactCount, 3)} durationMs={500} /> Props
+                </span>
+                <span className="idx-dir-arr">→</span>
+              </Link>
+              <Link href="/record" className="idx-dir-row">
+                <span className="idx-dir-n">II.</span>
+                <span className="idx-dir-k">Record</span>
+                <span className="idx-dir-sep" />
+                <span className="idx-dir-v">CH.01–{pad(recordChapters, 2)} Scan</span>
+                <span className="idx-dir-arr">→</span>
+              </Link>
+              <Link href="/operator" className="idx-dir-row">
+                <span className="idx-dir-n">III.</span>
+                <span className="idx-dir-k">Operator</span>
+                <span className="idx-dir-sep" />
+                <span className="idx-dir-v">
+                  <NumScramble value={pad(creditCount, 2)} durationMs={500} /> Credits
+                </span>
+                <span className="idx-dir-arr">→</span>
+              </Link>
+            </nav>
+          </section>
+
+        </div>
+
+        {/* CONTACT RAIL — sideways strip, always visible regardless of height */}
+        <aside className="idx-contact-rail" aria-label="Contact">
+          <span className="idx-contact-rail-k">
+            <span className="idx-contact-rail-sym">▣</span>
+            Contact · 連絡
+          </span>
+          <a className="idx-contact-rail-v" href={`mailto:${profile.identity.email}`}>
+            {profile.identity.email}
+            <span className="idx-contact-rail-arr">→</span>
+          </a>
+          {profile.identity.handle && (
+            <span className="idx-contact-rail-sub">
+              {profile.identity.handle}
+              {profile.identity.hours && <> · {profile.identity.hours}</>}
             </span>
-          </div>
+          )}
+        </aside>
+
+        {/* RIGHT — FEATURED MOSAIC */}
+        <div className="idx-right">
+          <GalleryGrid
+            artifacts={artifacts.filter((a) => a.showOnIndex !== false)}
+            total={artifactCount}
+          />
         </div>
       </div>
-      <div className="idx-right">
-        <div className="gal-hdr">
-          <span>Featured · Prop Catalog</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-            <span className="gal-scroll-hint">Scroll ↓</span>
-            <Link href="/catalog" className="chip" style={{ padding: '3px 10px', fontSize: 9 }}>
-              Browse all <NumScramble value={pad(artifacts.length)} durationMs={500} /> →
-            </Link>
-          </div>
-        </div>
-        <GalleryGrid artifacts={artifacts.slice(0, 20)} />
-      </div>
-    </div>
+    </ViewerFrame>
   );
 }

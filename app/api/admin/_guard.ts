@@ -1,9 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
+import { hasValidSession } from '@/lib/auth';
 
-/** Returns a 404 response if not in dev, else null. Admin is localhost-only. */
-export function guardDev(): NextResponse | null {
-  if (process.env.NODE_ENV === 'production') {
-    return new NextResponse('Not found', { status: 404 });
-  }
-  return null;
+/** Returns a 401 JSON response if the request lacks a valid admin session; else null. */
+export async function guardAdmin(req: NextRequest | Request): Promise<NextResponse | null> {
+  if (await hasValidSession(req)) return null;
+  return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
 }

@@ -1,4 +1,5 @@
 import { readProfile } from '@/lib/profile-server';
+import { ViewerFrame } from '@/components/ViewerFrame';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,12 +9,21 @@ export default async function OperatorPage() {
   const parts = identity.name.split(' ');
   const first = parts[0] ?? identity.name;
   const last = parts.slice(1).join(' ');
+  const nowLabel = new Date().toISOString().slice(0, 10);
   return (
-    <div className="pw">
-      <div className="sh">
-        <span className="sl">Operator File</span>
-        <span className="sc">{identity.callsign.split(' · ').slice(0, 2).join('-')}</span>
-      </div>
+    <ViewerFrame
+      tag="◆ Operator File"
+      title={identity.callsign.toUpperCase()}
+      meta={identity.available ? 'AVAILABLE' : 'ON ASSIGNMENT'}
+      leftRail={['OPERATOR', nowLabel]}
+      rightRail={['LIVE', identity.role.toUpperCase()]}
+      currentLabel="OPERATOR"
+      prev={{ label: 'RECORD', href: '/record' }}
+      next={[
+        { label: 'INDEX', href: '/' },
+        { label: 'CATALOG', href: '/catalog' },
+      ]}
+    >
       <div className="op-grid">
         <div className="op-panel">
           <div className="op-h">Skills &amp; Tools</div>
@@ -89,6 +99,6 @@ export default async function OperatorPage() {
           </div>
         </div>
       </div>
-    </div>
+    </ViewerFrame>
   );
 }

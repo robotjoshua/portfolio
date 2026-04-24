@@ -1,17 +1,30 @@
-import { readArtifacts } from '@/lib/artifacts-server';
+import { readCombinedArtifacts } from '@/lib/combined-artifacts';
 import { RecordConsole } from '@/components/RecordConsole';
+import { ViewerFrame } from '@/components/ViewerFrame';
+import { pad } from '@/lib/kinds';
 
 export const dynamic = 'force-dynamic';
 
 export default async function RecordLandingPage() {
-  const artifacts = await readArtifacts();
+  const artifacts = await readCombinedArtifacts();
+  const nowLabel = new Date().toISOString().slice(0, 10);
   return (
-    <div className="pw">
-      <div className="sh">
-        <span className="sl">Record · Experimental Console</span>
-        <span className="sc">CH.01–08 · LIVE</span>
+    <ViewerFrame
+      tag="◆ Record"
+      title="EXPERIMENTAL CONSOLE · CH.01–08"
+      meta={`${pad(artifacts.length, 3)} FEED`}
+      leftRail={['RECORD', nowLabel]}
+      rightRail={['LIVE', 'SCAN']}
+      currentLabel="RECORD"
+      prev={{ label: 'CATALOG', href: '/catalog' }}
+      next={[
+        { label: 'OPERATOR', href: '/operator' },
+        { label: 'INDEX', href: '/' },
+      ]}
+    >
+      <div className="rec-viewer-inner">
+        <RecordConsole artifacts={artifacts} />
       </div>
-      <RecordConsole artifacts={artifacts} />
-    </div>
+    </ViewerFrame>
   );
 }

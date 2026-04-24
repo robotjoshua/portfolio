@@ -3,7 +3,23 @@ node_modules/
 out/
 .admin-bundle/
 .api-bundle/
+.netlify/
+.blobs/
 .DS_Store
 *.log
-.env*.local
+.env
+.env.local
+.env.*.local
 next-env.d.ts
+tsconfig.tsbuildinfo
+.vscode/
+.vs/
+.claude/settings.local.json
+
+# Runtime content — sourced from Postgres + Netlify Blobs in prod.
+# Keep out of the repo; use scripts/db-seed.ts to migrate existing assets.
+public/uploads/
+public/artifacts/
+data/artifacts.json
+data/uploads.json
+data/profile.json

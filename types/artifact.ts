@@ -26,6 +26,8 @@ export interface Artifact {
   images?: ArtifactImage[];
   /** 1-based sort index; also used as plate seed when no images exist */
   index: number;
+  /** if false, hide from home-page index mosaic (defaults true) */
+  showOnIndex?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

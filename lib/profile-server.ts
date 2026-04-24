@@ -1,9 +1,7 @@
 import 'server-only';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
+import { eq, sql } from 'drizzle-orm';
+import { getDb, schema } from './db/client';
 import type { Profile } from '@/types/profile';
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'profile.json');
 
 const FALLBACK: Profile = {
   identity: {
@@ -32,15 +30,21 @@ const FALLBACK: Profile = {
 
 export async function readProfile(): Promise<Profile> {
   try {
-    const raw = await fs.readFile(DATA_FILE, 'utf8');
-    return JSON.parse(raw) as Profile;
-  } catch (err: unknown) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return FALLBACK;
-    throw err;
+    const db = getDb();
+    const rows = await db.select().from(schema.profile).where(eq(schema.profile.id, 1)).limit(1);
+    if (rows[0]) return rows[0].data as Profile;
+    return FALLBACK;
+  } catch {
+    return FALLBACK;
   }
 }
 
 export async function writeProfile(p: Profile): Promise<void> {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(p, null, 2) + '\n', 'utf8');
+  const db = getDb();
+  await db.insert(schema.profile)
+    .values({ id: 1, data: p })
+    .onConflictDoUpdate({
+      target: schema.profile.id,
+      set: { data: p, updatedAt: sql`now()` },
+    });
 }

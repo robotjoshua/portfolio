@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react';
 import type { Artifact } from '@/types/artifact';
 import { KS, pad } from '@/lib/kinds';
 import { EvCell } from './EvCell';
+import { ViewerFrame } from './ViewerFrame';
+import { NumTicker } from './NumTicker';
 
 export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
   const [q, setQ] = useState('');
@@ -44,124 +46,132 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
   );
   const hasFilter = kind || year || status || q;
 
+  const nowLabel = new Date().toISOString().slice(0, 10);
+
   return (
-    <div className="pw cat-wrap">
-      <div className="cat-side">
-        <div className="cs-sec">
-          <div className="cs-h">
-            <span>Kind</span>
-            <span>{pad(Object.keys(kindCounts).length, 2)}</span>
+    <ViewerFrame
+      tag="◆ Build Archive"
+      title="CATALOG · ALL KINDS"
+      meta={`${pad(filtered.length, 3)} / ${pad(artifacts.length, 3)}`}
+      leftRail={['CATALOG', nowLabel]}
+      rightRail={['LIVE', hasFilter ? 'FILTERED' : 'ALL']}
+      currentLabel="CATALOG"
+      prev={{ label: 'INDEX', href: '/' }}
+      next={[
+        { label: 'RECORD', href: '/record' },
+        { label: 'OPERATOR', href: '/operator' },
+      ]}
+    >
+      <div className="cat-board">
+        <div className="cat-filter-row">
+          <div className="cat-f-group">
+            <span className="cat-f-label">Kind<i>カインド</i></span>
+            <div className="cat-f-chips">
+              {Object.entries(kindCounts).sort().map(([k, c]) => (
+                <button
+                  key={k}
+                  className={`cat-chip${kind === k ? ' on' : ''}`}
+                  onClick={() => setKind(kind === k ? null : k)}
+                >
+                  <span className="cat-chip-sym">{KS[k as keyof typeof KS]}</span>
+                  <span>{k}</span>
+                  <span className="cat-chip-c">{pad(c, 2)}</span>
+                </button>
+              ))}
+            </div>
           </div>
-          {Object.entries(kindCounts)
-            .sort()
-            .map(([k, c]) => (
-              <div
-                key={k}
-                className={`cs-item${kind === k ? ' on' : ''}`}
-                onClick={() => setKind(kind === k ? null : k)}
-              >
-                <span>
-                  <span className="cs-sym">{KS[k as keyof typeof KS]}</span>
-                  {k}
-                </span>
-                <span className="cs-c">{pad(c, 2)}</span>
-              </div>
-            ))}
-        </div>
-        <div className="cs-sec">
-          <div className="cs-h">
-            <span>Year</span>
-            <span>{pad(Object.keys(yearCounts).length, 2)}</span>
+          <span className="cat-f-divider" />
+          <div className="cat-f-group">
+            <span className="cat-f-label">Year<i>ネン</i></span>
+            <div className="cat-f-chips">
+              {Object.entries(yearCounts).sort().map(([y, c]) => (
+                <button
+                  key={y}
+                  className={`cat-chip${year === +y ? ' on' : ''}`}
+                  onClick={() => setYear(year === +y ? null : +y)}
+                >
+                  <span>{y}</span>
+                  <span className="cat-chip-c">{pad(c, 2)}</span>
+                </button>
+              ))}
+            </div>
           </div>
-          {Object.entries(yearCounts)
-            .sort()
-            .map(([y, c]) => (
-              <div
-                key={y}
-                className={`cs-item${year === +y ? ' on' : ''}`}
-                onClick={() => setYear(year === +y ? null : +y)}
-              >
-                <span>{y}</span>
-                <span className="cs-c">{pad(c, 2)}</span>
-              </div>
-            ))}
-        </div>
-        <div className="cs-sec">
-          <div className="cs-h">
-            <span>Status</span>
-            <span>{pad(Object.keys(statusCounts).length, 2)}</span>
+          <span className="cat-f-divider" />
+          <div className="cat-f-group">
+            <span className="cat-f-label">Status<i>ステータス</i></span>
+            <div className="cat-f-chips">
+              {Object.entries(statusCounts).sort().map(([s, c]) => (
+                <button
+                  key={s}
+                  className={`cat-chip${status === s ? ' on' : ''}`}
+                  onClick={() => setStatus(status === s ? null : s)}
+                >
+                  <span>{s}</span>
+                  <span className="cat-chip-c">{pad(c, 2)}</span>
+                </button>
+              ))}
+            </div>
           </div>
-          {Object.entries(statusCounts)
-            .sort()
-            .map(([s, c]) => (
-              <div
-                key={s}
-                className={`cs-item${status === s ? ' on' : ''}`}
-                onClick={() => setStatus(status === s ? null : s)}
-              >
-                <span>{s}</span>
-                <span className="cs-c">{pad(c, 2)}</span>
-              </div>
-            ))}
-        </div>
-        <div className="cs-stat">
-          <span className="cs-stat-v">{pad(filtered.length, 3)}</span>
-          <span className="cs-stat-k">/ {pad(artifacts.length, 3)} shown</span>
-        </div>
-        <input
-          className="cs-q"
-          type="text"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search…"
-        />
-        {hasFilter && (
-          <button
-            className="cs-clear"
-            onClick={() => {
-              setKind(null);
-              setYear(null);
-              setStatus(null);
-              setQ('');
-            }}
-          >
-            Clear filters ✕
-          </button>
-        )}
-      </div>
-      <div className="cat-main">
-        <div className="cat-topbar">
-          <span className="ctb-l">Build Archive</span>
-          <span>·</span>
-          <span>{kind ? `${KS[kind as keyof typeof KS]} ${kind}` : 'All kinds'}</span>
-          {year && (
-            <>
-              <span>·</span>
-              <span>{year}</span>
-            </>
-          )}
-          {status && (
-            <>
-              <span>·</span>
-              <span>{status}</span>
-            </>
-          )}
-          <span style={{ flex: 1 }} />
-          <span>
-            {pad(filtered.length, 3)} / {pad(artifacts.length, 3)}
-          </span>
         </div>
         <div className="ev-grid">
           {filtered.map((a, i) => (
-            <EvCell
-              key={a.id}
-              a={a}
-              href={`/archive/${a.id}`}
-              delay={i * 10}
-            />
+            <EvCell key={a.id} a={a} href={`/archive/${a.id}`} delay={i * 10} />
           ))}
         </div>
+        <div className="cat-foot">
+          <span className="cat-foot-stat">
+            <span className="cat-foot-v">{pad(filtered.length, 3)}</span>
+            <span className="cat-foot-k">/ {pad(artifacts.length, 3)} shown</span>
+          </span>
+          <input
+            className="cat-foot-q"
+            type="text"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search…"
+          />
+          <span className="cat-foot-seq" aria-hidden>
+            <span className="cat-foot-seq-k">
+              <b>JP–SEQ</b>
+              <i>整理番号</i>
+            </span>
+            <span className="cat-foot-seq-v">
+              <NumTicker value={pad(filtered.length, 3)} />
+              <span className="cat-foot-seq-sep">·</span>
+              <NumTicker value={pad(artifacts.length, 3)} idle={false} />
+              <span className="cat-foot-seq-sep">·</span>
+              <span className="cat-foot-seq-tag">
+                {(kind ?? 'A').slice(0, 3).toUpperCase().padEnd(3, 'X')}
+              </span>
+              <span className="cat-foot-seq-sep">·</span>
+              <NumTicker value={year ? String(year).slice(-2) : '26'} idle={false} />
+              <span className="cat-foot-seq-sep">·</span>
+              <span className="cat-foot-seq-tag">
+                {(status ?? 'ALL').slice(0, 3).toUpperCase().padEnd(3, 'X')}
+              </span>
+              <span className="cat-foot-seq-sep">·</span>
+              <span className="cat-foot-seq-tag">{hasFilter ? 'FLT' : 'ALL'}</span>
+              <span className="cat-foot-seq-sep">·</span>
+              <NumTicker
+                value={pad(Math.floor((filtered.length * 17) % 9999), 4)}
+              />
+            </span>
+          </span>
+          {hasFilter && (
+            <button
+              className="cat-foot-clear"
+              onClick={() => {
+                setKind(null);
+                setYear(null);
+                setStatus(null);
+                setQ('');
+              }}
+            >
+              Clear ✕
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+    </ViewerFrame>
   );
 }

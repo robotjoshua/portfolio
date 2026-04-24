@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import sharp from 'sharp';
 import { appendUpload, readUploads } from '@/lib/uploads-server';
+import { putImage, imgUrl } from '@/lib/blobs';
 import type { UploadedFile } from '@/types/upload';
-import { guardDev } from '../_guard';
+import { guardAdmin } from '../_guard';
 
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const ALLOWED = new Set([
@@ -32,15 +32,15 @@ function safeSlug(name: string): string {
     .slice(0, 40) || 'image';
 }
 
-export async function GET() {
-  const blocked = guardDev();
+export async function GET(req: NextRequest) {
+  const blocked = await guardAdmin(req);
   if (blocked) return blocked;
   const files = await readUploads();
   return NextResponse.json({ files });
 }
 
 export async function POST(req: NextRequest) {
-  const blocked = guardDev();
+  const blocked = await guardAdmin(req);
   if (blocked) return blocked;
 
   try {
@@ -56,9 +56,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `unsupported type: ${file.type}` }, { status: 400 });
     }
 
-    const dir = path.join(process.cwd(), 'public', 'uploads');
-    await fs.mkdir(dir, { recursive: true });
-
     const buf = Buffer.from(await file.arrayBuffer());
     const stamp = Date.now().toString(36);
     const slug = safeSlug(file.name);
@@ -66,7 +63,6 @@ export async function POST(req: NextRequest) {
     const fullName = `${base}.webp`;
     const thumbName = `${base}-thumb.webp`;
 
-    // Read metadata first — if this fails the image is unreadable
     let meta: sharp.Metadata;
     try {
       meta = await sharp(buf).metadata();
@@ -75,7 +71,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'could not read image metadata' }, { status: 400 });
     }
 
-    // Convert to WebP — use toBuffer() so no orphan file on failure
     let fullBuf: Buffer;
     try {
       fullBuf = await sharp(buf).rotate().withMetadata().webp({ quality: 94, effort: 5 }).toBuffer();
@@ -84,18 +79,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'image conversion failed' }, { status: 422 });
     }
 
-    await fs.writeFile(path.join(dir, fullName), fullBuf);
+    const fullKey = `uploads/${fullName}`;
+    await putImage(fullKey, fullBuf, 'image/webp');
 
-    // Thumbnail is best-effort — failure is non-fatal
-    let thumbSrc = `/uploads/${fullName}`;
+    let thumbSrc = imgUrl(fullKey);
     try {
       const thumbBuf = await sharp(buf)
         .rotate()
         .resize(640, 640, { fit: 'cover' })
         .webp({ quality: 82 })
         .toBuffer();
-      await fs.writeFile(path.join(dir, thumbName), thumbBuf);
-      thumbSrc = `/uploads/${thumbName}`;
+      const thumbKey = `uploads/${thumbName}`;
+      await putImage(thumbKey, thumbBuf, 'image/webp');
+      thumbSrc = imgUrl(thumbKey);
     } catch (e) {
       console.warn('[upload] thumbnail generation failed (using full image):', e);
     }
@@ -103,7 +99,7 @@ export async function POST(req: NextRequest) {
     const record: UploadedFile = {
       filename: fullName,
       originalName: file.name,
-      src: `/uploads/${fullName}`,
+      src: imgUrl(fullKey),
       thumb: thumbSrc,
       size: fullBuf.length,
       w: meta.width,

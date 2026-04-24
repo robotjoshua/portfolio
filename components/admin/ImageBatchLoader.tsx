@@ -425,8 +425,8 @@ export function ImageBatchLoader() {
                         <span className={`bl-catalog-src bl-catalog-src-${item.catalog.source}`}>{item.catalog.source}</span>
                       </div>
                       <div className="bl-catalog-pal">
-                        {item.catalog.palette.map((hex) => (
-                          <span key={hex} className="bl-catalog-swatch" style={{ background: hex }} title={hex} />
+                        {item.catalog.palette.map((hex, i) => (
+                          <span key={`${i}-${hex}`} className="bl-catalog-swatch" style={{ background: hex }} title={hex} />
                         ))}
                       </div>
                       {item.catalog.material && <div className="bl-catalog-mat">{item.catalog.material}</div>}

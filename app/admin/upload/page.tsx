@@ -1,34 +1,7 @@
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { readUploads } from '@/lib/uploads-server';
-import { ImageBatchLoader } from '@/components/admin/ImageBatchLoader';
-import { UploadLibrary } from '@/components/admin/UploadLibrary';
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
-
-export default async function AdminUploadPage() {
-  if (process.env.NODE_ENV === 'production') notFound();
-  const existing = await readUploads();
-
-  return (
-    <div className="adm-wrap">
-      <div className="adm-h">
-        <div style={{ display: 'flex', alignItems: 'baseline' }}>
-          <h1>Upload</h1>
-          <span className="sub">
-            batch loader · {existing.length} in library · dev-only
-          </span>
-        </div>
-        <div className="adm-tools">
-          <Link href="/admin" className="adm-btn ghost">
-            ← Admin
-          </Link>
-        </div>
-      </div>
-
-      <ImageBatchLoader />
-
-      <UploadLibrary files={existing} />
-    </div>
-  );
+// The upload library has been merged into the main /admin page. Keep this
+// route as a permanent redirect so bookmarks still work.
+export default function AdminUploadRedirect() {
+  redirect('/admin');
 }

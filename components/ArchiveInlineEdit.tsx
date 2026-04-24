@@ -1,9 +1,10 @@
 'use client';
 import { useState, useRef, useCallback, type ReactNode } from 'react';
 import Link from 'next/link';
-import type { Artifact } from '@/types/artifact';
+import type { Artifact, ArtifactImage } from '@/types/artifact';
 import { KINDS, STATUSES } from '@/types/artifact';
 import { KS } from '@/lib/kinds';
+import { generateName } from '@/lib/namegen';
 import { Plate } from './Plate';
 
 interface Props {
@@ -30,6 +31,7 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
   const [editing, setEditing] = useState(false);
   const [saveState, setSaveState] = useState<SaveState>('idle');
   const [openSection, setOpenSection] = useState<number>(0);
+  const [deleting, setDeleting] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const idRef = useRef<string>(initial.id);
   const aRef = useRef<Artifact>(initial);
@@ -95,6 +97,83 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
     set('palette', next);
   }
 
+  async function uploadAndAttach(files: FileList | File[]) {
+    const list = Array.from(files);
+    for (const file of list) {
+      setSaveState('saving');
+      try {
+        const fd = new FormData();
+        fd.append('file', file);
+        const res = await fetch('/api/admin/uploads', { method: 'POST', body: fd });
+        if (!res.ok) throw new Error();
+        const { file: up } = (await res.json()) as { file: { src: string; thumb: string; w?: number; h?: number; originalName: string } };
+        const img: ArtifactImage = { src: up.src, thumb: up.thumb, w: up.w, h: up.h, alt: up.originalName };
+        set('images', [...(aRef.current.images ?? []), img]);
+      } catch {
+        setSaveState('error');
+      }
+    }
+  }
+
+  async function deleteArtifact() {
+    const currentId = idRef.current;
+    const current = aRef.current;
+    const label = current.title || currentId;
+    if (!confirm(`Delete "${label}"? This cannot be undone.`)) return;
+    setDeleting(true);
+    try {
+      let res: Response;
+      if (currentId.startsWith('U-')) {
+        // Unclaimed upload — delete the underlying upload row + blobs.
+        const src = current.images[0]?.src ?? '';
+        const match = src.match(/([^/]+\.webp)$/i);
+        if (!match) throw new Error('no filename');
+        res = await fetch(`/api/admin/uploads/${match[1]}`, { method: 'DELETE' });
+      } else {
+        res = await fetch(`/api/admin/artifacts/${currentId}`, { method: 'DELETE' });
+      }
+      if (!res.ok) throw new Error();
+      window.location.href = '/catalog';
+    } catch {
+      setDeleting(false);
+      setSaveState('error');
+    }
+  }
+
+  async function removeImage(src: string) {
+    const currentId = idRef.current;
+    // U-* items are synthesized from uploads.json; removal = delete upload entry + file
+    if (currentId.startsWith('U-')) {
+      const match = src.match(/^\/uploads\/([^/?#]+)$/);
+      if (match) {
+        try {
+          await fetch(`/api/admin/uploads/${match[1]}`, { method: 'DELETE' });
+          // The U-* no longer has a source, so navigate away
+          window.location.href = '/catalog';
+        } catch { /* noop */ }
+      }
+      return;
+    }
+    // JP-* path: optimistic local removal, then server-side cleanup
+    const nextImages = (aRef.current.images ?? []).filter((i) => i.src !== src);
+    setA(cur => {
+      const next = { ...cur, images: nextImages };
+      aRef.current = next;
+      return next;
+    });
+    try {
+      await fetch(`/api/admin/artifacts/${currentId}/images`, {
+        method: 'DELETE',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ src }),
+      });
+      setSaveState('saved');
+      setTimeout(() => setSaveState('idle'), 1500);
+    } catch {
+      setSaveState('error');
+    }
+  }
+
   // ── read sections ─────────────────────────────────────────────────────────
   const readSections: Section[] = [
     {
@@ -132,6 +211,20 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
         </div>
       ),
     },
+    {
+      k: 'Images', subtitle: `${(a.images ?? []).length} attached`,
+      body: (
+        <div className="adm-img-grid">
+          {(a.images ?? []).map((img) => (
+            <div key={img.src} className="adm-img">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={img.thumb || img.src} alt={img.alt || ''} />
+            </div>
+          ))}
+          {(a.images ?? []).length === 0 && <div className="aie-img-empty">No images</div>}
+        </div>
+      ),
+    },
     ...(a.note ? [{
       k: 'Build Note', subtitle: `${a.note.length} chars`,
       body: <div className="acc-note">{a.note}</div>,
@@ -145,7 +238,17 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
       body: (
         <div className="acc-kv">
           <F label="Title">
-            <input className="aie-input acc-v" value={a.title} onChange={e => set('title', e.target.value)} />
+            <div className="aie-input-row">
+              <input className="aie-input acc-v" value={a.title} onChange={e => set('title', e.target.value)} />
+              <button
+                type="button"
+                className="aie-gen"
+                title="Generate random name"
+                onClick={() => set('title', generateName())}
+              >
+                ⟳
+              </button>
+            </div>
           </F>
           <F label="Cat. No.">
             <input className="aie-input acc-v" value={a.catNo} onChange={e => set('catNo', e.target.value)} />
@@ -166,6 +269,31 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
               {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </F>
+          <F label="Show on index">
+            <label className="aie-check">
+              <input
+                type="checkbox"
+                checked={a.showOnIndex !== false}
+                onChange={e => set('showOnIndex', e.target.checked)}
+              />
+              <span className="aie-check-hint">
+                {a.showOnIndex === false ? 'Hidden from home mosaic' : 'Visible on home'}
+              </span>
+            </label>
+          </F>
+          {!readOnly && (
+            <F label="Danger zone">
+              <button
+                type="button"
+                className="aie-delete"
+                onClick={deleteArtifact}
+                disabled={deleting}
+                title="Delete this artifact"
+              >
+                {deleting ? 'DELETING…' : '× DELETE ARTIFACT'}
+              </button>
+            </F>
+          )}
         </div>
       ),
     },
@@ -205,6 +333,49 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
               />
             </div>
           ))}
+        </div>
+      ),
+    },
+    {
+      k: 'Images', subtitle: `${(a.images ?? []).length} attached`,
+      body: (
+        <div className="aie-img-section">
+          {isUnsorted && (
+            <div className="aie-img-note">
+              This item will be created when you add/remove an image or edit any other field.
+            </div>
+          )}
+          <div className="adm-img-grid">
+            {(a.images ?? []).map((img) => (
+              <div key={img.src} className="adm-img">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img.thumb || img.src} alt={img.alt || ''} />
+                <button
+                  type="button"
+                  className="rm"
+                  onClick={() => {
+                    if (confirm('Remove this image?')) removeImage(img.src);
+                  }}
+                >
+                  × REMOVE
+                </button>
+              </div>
+            ))}
+            <label className="adm-img aie-img-add" title="Add image">
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const files = e.target.files;
+                  if (files && files.length) uploadAndAttach(files);
+                  e.target.value = '';
+                }}
+              />
+              <span>+ ADD</span>
+            </label>
+          </div>
         </div>
       ),
     },
@@ -260,7 +431,17 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
           : <div className="arch-kind">{a.kind}</div>
         }
         {editing
-          ? <input className="aie-title arch-title" value={a.title} onChange={e => set('title', e.target.value)} />
+          ? <div className="aie-title-row">
+              <input className="aie-title arch-title" value={a.title} onChange={e => set('title', e.target.value)} />
+              <button
+                type="button"
+                className="aie-gen aie-gen-lg"
+                title="Generate random name"
+                onClick={() => set('title', generateName())}
+              >
+                ⟳
+              </button>
+            </div>
           : <div className="arch-title">{a.title}</div>
         }
         {editing
