@@ -36,11 +36,21 @@ export function Nav({ recLabel }: { recLabel?: string }) {
           {now ? now.toISOString().replace('T', ' ').slice(0, 19) + 'Z' : '\u00a0'}
         </span>
         <AmbientHum />
-        <button className="nav-theme" onClick={toggle}>
-          {dark ? '◑ Light' : '◑ Dark'}
+        <button
+          className="nav-icon nav-theme"
+          onClick={toggle}
+          aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={dark ? 'Light mode' : 'Dark mode'}
+        >
+          ◑
         </button>
-        <Link href="/admin" className={`nav-admin${pathname.startsWith('/admin') ? ' on' : ''}`}>
-          ▣ Admin
+        <Link
+          href="/admin"
+          className={`nav-icon nav-admin${pathname.startsWith('/admin') ? ' on' : ''}`}
+          aria-label="Admin"
+          title="Admin"
+        >
+          ▣
         </Link>
       </nav>
       <NavStrip />

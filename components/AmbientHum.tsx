@@ -376,11 +376,12 @@ export function AmbientHum() {
   return (
     <button
       type="button"
-      className={`nav-theme${on ? ' on' : ''}`}
-      aria-label={on ? 'Stop ambient rain music' : 'Play ambient rain music'}
+      className={`nav-icon nav-theme${on ? ' on' : ''}`}
+      aria-label={on ? 'Stop ambient music' : 'Play ambient music'}
+      title={on ? 'Mute' : 'Play music'}
       onClick={() => setOn((v) => !v)}
     >
-      {on ? '● Rain' : '○ Rain'}
+      {on ? '♫' : '♪'}
     </button>
   );
 }
