@@ -12,6 +12,7 @@ export default async function AdminPage() {
 
   return (
     <div className="adm-wrap">
+      <Link href="/" className="adm-back">← Back to site</Link>
       <div className="adm-h">
         <div style={{ display: 'flex', alignItems: 'baseline' }}>
           <h1>Admin</h1>

@@ -1,6 +1,7 @@
 'use client';
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 function LoginForm() {
   const router = useRouter();
@@ -35,6 +36,7 @@ function LoginForm() {
   return (
     <div className="login-wrap">
       <form className="login-card" onSubmit={handleSubmit}>
+        <Link href="/" className="login-back">← Back to site</Link>
         <div className="login-tag">▣ ADMIN · 管理</div>
         <h1 className="login-title">Sign in</h1>
         <p className="login-hint">Enter the admin password to manage the archive.</p>
