@@ -28,10 +28,13 @@ export async function POST(req: NextRequest) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     const buf = Buffer.from(await file.arrayBuffer());
+    const isGif = file.type === 'image/gif' || buf.slice(0, 4).toString('ascii') === 'GIF8';
     const slot = existingCount + i + 1;
     const base = String(slot).padStart(3, '0');
-    const fullName = `${base}.webp`;
+    const fullExt = isGif ? 'gif' : 'webp';
+    const fullName = `${base}.${fullExt}`;
     const thumbName = `${base}-thumb.webp`;
+    const fullType = isGif ? 'image/gif' : 'image/webp';
 
     let meta: sharp.Metadata;
     try {
@@ -42,24 +45,28 @@ export async function POST(req: NextRequest) {
     }
 
     let fullBuf: Buffer;
-    try {
-      fullBuf = await sharp(buf).rotate().withMetadata().webp({ quality: 86 }).toBuffer();
-    } catch (e) {
-      console.error('[upload] full image failed:', e);
-      continue;
+    if (isGif) {
+      fullBuf = buf;
+    } else {
+      try {
+        fullBuf = await sharp(buf).rotate().withMetadata().webp({ quality: 86 }).toBuffer();
+      } catch (e) {
+        console.error('[upload] full image failed:', e);
+        continue;
+      }
     }
 
     let thumbBuf: Buffer;
     try {
-      thumbBuf = await sharp(buf).rotate().resize(400, 400, { fit: 'cover' }).webp({ quality: 78 }).toBuffer();
+      thumbBuf = await sharp(buf, { animated: false }).rotate().resize(400, 400, { fit: 'cover' }).webp({ quality: 78 }).toBuffer();
     } catch (e) {
       console.warn('[upload] thumb failed, using full image:', e);
-      thumbBuf = fullBuf;
+      thumbBuf = isGif ? await sharp(buf, { animated: false }).webp({ quality: 78 }).toBuffer() : fullBuf;
     }
 
     const fullKey = `artifacts/${id}/${fullName}`;
     const thumbKey = `artifacts/${id}/${thumbName}`;
-    await putImage(fullKey, fullBuf, 'image/webp');
+    await putImage(fullKey, fullBuf, fullType);
     await putImage(thumbKey, thumbBuf, 'image/webp');
 
     added.push({

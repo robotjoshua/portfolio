@@ -57,11 +57,14 @@ export async function POST(req: NextRequest) {
     }
 
     const buf = Buffer.from(await file.arrayBuffer());
+    const isGif = file.type === 'image/gif' || buf.slice(0, 4).toString('ascii') === 'GIF8';
     const stamp = Date.now().toString(36);
     const slug = safeSlug(file.name);
     const base = `${stamp}-${slug}`;
-    const fullName = `${base}.webp`;
+    const fullExt = isGif ? 'gif' : 'webp';
+    const fullName = `${base}.${fullExt}`;
     const thumbName = `${base}-thumb.webp`;
+    const fullType = isGif ? 'image/gif' : 'image/webp';
 
     let meta: sharp.Metadata;
     try {
@@ -72,19 +75,23 @@ export async function POST(req: NextRequest) {
     }
 
     let fullBuf: Buffer;
-    try {
-      fullBuf = await sharp(buf).rotate().withMetadata().webp({ quality: 94, effort: 5 }).toBuffer();
-    } catch (e) {
-      console.error('[upload] full image conversion failed:', e);
-      return NextResponse.json({ error: 'image conversion failed' }, { status: 422 });
+    if (isGif) {
+      fullBuf = buf;
+    } else {
+      try {
+        fullBuf = await sharp(buf).rotate().withMetadata().webp({ quality: 94, effort: 5 }).toBuffer();
+      } catch (e) {
+        console.error('[upload] full image conversion failed:', e);
+        return NextResponse.json({ error: 'image conversion failed' }, { status: 422 });
+      }
     }
 
     const fullKey = `uploads/${fullName}`;
-    await putImage(fullKey, fullBuf, 'image/webp');
+    await putImage(fullKey, fullBuf, fullType);
 
     let thumbSrc = imgUrl(fullKey);
     try {
-      const thumbBuf = await sharp(buf)
+      const thumbBuf = await sharp(buf, { animated: false })
         .rotate()
         .resize(640, 640, { fit: 'cover' })
         .webp({ quality: 82 })
