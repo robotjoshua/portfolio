@@ -1090,7 +1090,7 @@ html[data-dark] .cat-side,
 html[data-dark] .cat-topbar{border-color:var(--rule-3);}
 
 /* rec panels */
-html[data-dark] .rec-plate,
+html[data-dark] .rec-plate{background:var(--img-bg);}
 html[data-dark] .rec-side-panel,
 html[data-dark] .op-panel{background:var(--paper-2);}
 html[data-dark] .rec-note{background:var(--paper);border-color:var(--rule-3);color:var(--ink-2);}
