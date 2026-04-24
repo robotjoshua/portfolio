@@ -945,9 +945,9 @@ html[data-dark] .rc-ab-btn:hover{background:#fff;color:var(--ink);border-color:#
 @media(max-width:600px){
   html,body{overflow-x:hidden;}
   body{overflow-y:auto;}
-  .shell{height:auto;overflow:visible;padding:60px 4px 16px;}
-  .pw{flex:none;min-height:0;overflow:visible;padding:16px 6px 72px;max-width:100%;}
-  .vf-wrap{grid-template-columns:18px minmax(0,1fr) 18px!important;padding:0 4px 14px!important;max-width:100%!important;gap:0;}
+  .shell{height:auto;overflow:visible;padding:60px 18px 16px;}
+  .pw{flex:none;min-height:0;overflow:visible;padding:16px 14px 72px;max-width:100%;}
+  .vf-wrap{grid-template-columns:18px minmax(0,1fr) 18px!important;padding:0 14px 14px!important;max-width:100%!important;gap:0;}
   .vf-top{gap:6px;padding:0 2px 8px;font-size:10px;letter-spacing:.12em;flex-wrap:wrap;row-gap:4px;}
   .vf-bot{gap:6px;padding:8px 2px 0;font-size:10px;letter-spacing:.12em;}
   .vf-left,.vf-right{padding:6px 0 8px;}
