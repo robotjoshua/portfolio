@@ -134,23 +134,23 @@ export default async function IndexPage() {
 
         </div>
 
-        {/* CONTACT RAIL — sideways strip, always visible regardless of height */}
-        <aside className="idx-contact-rail" aria-label="Contact">
+        {/* CONTACT RAIL — links through to the Operator page */}
+        <Link className="idx-contact-rail" href="/operator" aria-label="Operator">
           <span className="idx-contact-rail-k">
             <span className="idx-contact-rail-sym">▣</span>
             Contact · 連絡
           </span>
-          <a className="idx-contact-rail-v" href={`mailto:${profile.identity.email}`}>
+          <span className="idx-contact-rail-v">
             {profile.identity.email}
             <span className="idx-contact-rail-arr">→</span>
-          </a>
+          </span>
           {profile.identity.handle && (
             <span className="idx-contact-rail-sub">
               {profile.identity.handle}
               {profile.identity.hours && <> · {profile.identity.hours}</>}
             </span>
           )}
-        </aside>
+        </Link>
 
         {/* RIGHT — FEATURED MOSAIC */}
         <div className="idx-right">

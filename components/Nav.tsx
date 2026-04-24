@@ -39,11 +39,9 @@ export function Nav({ recLabel }: { recLabel?: string }) {
         <button className="nav-theme" onClick={toggle}>
           {dark ? '◑ Light' : '◑ Dark'}
         </button>
-        {process.env.NODE_ENV !== 'production' && (
-          <Link href="/admin" className={`nav-admin${pathname.startsWith('/admin') ? ' on' : ''}`}>
-            ▣ Admin
-          </Link>
-        )}
+        <Link href="/admin" className={`nav-admin${pathname.startsWith('/admin') ? ' on' : ''}`}>
+          ▣ Admin
+        </Link>
       </nav>
       <NavStrip />
     </>
