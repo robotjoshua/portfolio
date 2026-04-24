@@ -1116,7 +1116,7 @@ html[data-dark] .rsh-badge{border-color:var(--ink);color:var(--ink);}
 html[data-dark] .term-bar{background:var(--paper);color:#6a6d62;}
 
 /* DATA TICKER — fictional workshop feed, scrolls down on left/right rails */
-.dt-vl,.dt-vr{position:fixed;top:74px;bottom:0;width:22px;background:#0a0d0a;overflow:hidden;z-index:98;user-select:none;}
+.dt-vl,.dt-vr{position:fixed;top:0;bottom:0;width:22px;background:#0a0d0a;overflow:hidden;z-index:120;user-select:none;}
 .dt-vl{left:0;border-right:1px solid rgba(236,233,224,.14);}
 .dt-vr{right:0;border-left:1px solid rgba(236,233,224,.14);}
 .dt-vtrack{display:flex;flex-direction:column;will-change:transform;animation:dt-vscroll 90s linear infinite;}
@@ -1126,9 +1126,15 @@ html[data-dark] .term-bar{background:var(--paper);color:#6a6d62;}
 .dt-k{writing-mode:vertical-rl;transform:rotate(180deg);font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#ece9e0;opacity:.38;white-space:nowrap;}
 .dt-v{writing-mode:vertical-rl;transform:rotate(180deg);font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#ece9e0;font-variant-numeric:tabular-nums;transition:opacity .3s;white-space:nowrap;}
 .dt-u{opacity:.5;}
+html[data-dark] .dt-vl,html[data-dark] .dt-vr{background:#ece9e0;}
+html[data-dark] .dt-vl{border-right-color:rgba(10,13,10,.18);}
+html[data-dark] .dt-vr{border-left-color:rgba(10,13,10,.18);}
+html[data-dark] .dt-cell{border-bottom-color:rgba(10,13,10,.1);}
+html[data-dark] .dt-k,html[data-dark] .dt-v{color:#0a0d0a;}
 @keyframes dt-vscroll{from{transform:translateY(-50%)}to{transform:translateY(0)}}
 @media (prefers-reduced-motion:reduce){.dt-vtrack{animation:none;}}
-@media (max-width:900px){.dt-vl,.dt-vr{display:none;}}
+@media (max-width:900px){.dt-vl,.dt-vr{width:14px;}}
+@media (max-width:600px){.dt-vl,.dt-vr{width:11px;}.dt-cell{padding:8px 0;}.dt-k,.dt-v{font-size:7px;letter-spacing:.08em;}}
 .tk{color:var(--ink);margin-right:3px;text-shadow:0 0 10px rgba(236,233,224,.3);}
 .tsep{width:1px;height:11px;background:var(--rule-2);margin:0 16px;flex-shrink:0;}
 .tver{letter-spacing:.12em;}
