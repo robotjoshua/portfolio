@@ -9,10 +9,14 @@ export function Nav({ recLabel }: { recLabel?: string }) {
   const pathname = usePathname() ?? '/';
   const { dark, toggle } = useDark();
   const [now, setNow] = useState<Date | null>(null);
+  const [rev, setRev] = useState<string>('—·—·—');
 
   useEffect(() => {
     setNow(new Date());
     const t = setInterval(() => setNow(new Date()), 1000);
+    const rnd = () => Math.floor(Math.random() * 90 + 10).toString();
+    const glyphs = 'ΩΔΣΞΘΦΨΠ';
+    setRev(`${rnd()}·${glyphs[Math.floor(Math.random() * glyphs.length)]}·${rnd()}`);
     return () => clearInterval(t);
   }, []);
 
@@ -28,7 +32,7 @@ export function Nav({ recLabel }: { recLabel?: string }) {
         </span>
         <span className="nav-rev">
           <span className="nav-rev-k">REV</span>
-          <span className="nav-rev-v">26·Ω·07</span>
+          <span className="nav-rev-v">{rev}</span>
         </span>
         <span className="nav-sp" />
         <span className="nav-utc">

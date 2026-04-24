@@ -1,5 +1,5 @@
 'use client';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const LINKS = [
@@ -11,9 +11,16 @@ const LINKS = [
 
 export function TermBar() {
   const router = useRouter();
+  const [ver, setVer] = useState('—.—');
+  useEffect(() => {
+    const major = Math.floor(Math.random() * 9) + 1;
+    const minor = Math.floor(Math.random() * 90) + 10;
+    const patch = Math.floor(Math.random() * 900) + 100;
+    setVer(`v${major}.${minor}.${patch}`);
+  }, []);
   return (
     <div className="term-bar">
-      <span className="tver">◈ JP-ARCHIVE v1.0 · {new Date().getFullYear()}</span>
+      <span className="tver">◈ JP-ARCHIVE {ver} · {new Date().getFullYear()}</span>
       <span className="tlinks">
         {LINKS.map((s, i) => (
           <Fragment key={s.label}>
