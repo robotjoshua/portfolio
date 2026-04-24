@@ -24,7 +24,7 @@ export function Plate({
   if (hero?.src) {
     const src = size === 'full' ? (hero.src || hero.thumb) : (hero.thumb || hero.src);
     return (
-      <div style={{ position: 'absolute', inset: 0, background: 'var(--paper-2)' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'var(--img-bg)' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={src}
@@ -41,7 +41,7 @@ export function Plate({
   const s = a.index || 1;
   const R = PK[s % PK.length];
   return (
-    <div style={{ position: 'absolute', inset: 0, background: 'var(--paper-2)' }}>
+    <div style={{ position: 'absolute', inset: 0, background: 'var(--img-bg)' }}>
       {mounted && <R seed={s} palette={a.palette} />}
     </div>
   );
