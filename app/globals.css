@@ -31,7 +31,7 @@ body :where(.sh .sl,.sh .sc,.msr-k,.cs-h,.cs-item,.cs-stat-k,.cat-topbar,.gal-hd
 .nav-sp{flex:1;min-width:14px;}
 .nav-utc{opacity:.75;font-variant-numeric:tabular-nums;font-size:10.5px;font-family:var(--f-m);color:var(--ink);padding:3px 7px;border:1px solid var(--rule-2);border-radius:0;background:var(--paper-2);margin-left:10px;flex-shrink:0;}
 /* broadcast marquee — full-width strip directly under the nav */
-.nav-mq{position:fixed;top:52px;left:0;right:0;display:flex;align-items:center;height:22px;background:var(--paper);overflow:hidden;z-index:99;border-bottom:1px solid var(--rule-3);}
+.nav-mq{position:relative;display:flex;align-items:center;height:22px;background:var(--paper);overflow:hidden;z-index:1;border-top:1px solid var(--rule-3);border-bottom:1px solid var(--rule-3);}
 .nav-mq-led{width:6px;height:6px;border-radius:50%;background:var(--accent);margin:0 12px 0 36px;flex-shrink:0;box-shadow:0 0 6px rgba(var(--accent-rgb)/.65);animation:nmled 1.4s ease-in-out infinite;}
 @keyframes nmled{0%,100%{opacity:1}50%{opacity:.35}}
 .nav-mq-track{flex:1;min-width:0;overflow:hidden;position:relative;display:flex;align-items:center;height:100%;}
@@ -42,14 +42,14 @@ body :where(.sh .sl,.sh .sc,.msr-k,.cs-h,.cs-item,.cs-stat-k,.cat-topbar,.gal-hd
 .nav-mq-row > span{display:inline-block;}
 .nav-mq:hover .nav-mq-row{animation-play-state:paused;}
 @keyframes nmqroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-html[data-dark] .nav-mq{background:var(--paper);border-bottom-color:var(--rule-2);}
+html[data-dark] .nav-mq{background:var(--paper);border-top-color:var(--rule-2);border-bottom-color:var(--rule-2);}
 html[data-dark] .nav-mq-track::before{background:linear-gradient(to right,var(--paper),transparent);}
 html[data-dark] .nav-mq-track::after{background:linear-gradient(to left,var(--paper),transparent);}
 html[data-dark] .nav-utc{background:var(--paper-2);border-color:var(--rule-2);}
 html[data-dark] .nav-rev{border-color:var(--rule-2);}
 
 /* SHELL */
-.shell{padding:74px 28px 26px;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+.shell{padding:52px 28px 26px;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
 .pw{flex:1;min-height:0;display:flex;flex-direction:column;max-width:1440px;width:100%;margin:0 auto;padding:32px 44px 26px;overflow:hidden;animation:fi .28s ease both;}
 @keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 

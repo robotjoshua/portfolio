@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDark } from './providers';
 import { AmbientHum } from './AmbientHum';
-import { NavStrip } from './NavStrip';
 
 export function Nav({ recLabel }: { recLabel?: string }) {
   const pathname = usePathname() ?? '/';
@@ -53,7 +52,6 @@ export function Nav({ recLabel }: { recLabel?: string }) {
           ▣
         </Link>
       </nav>
-      <NavStrip />
     </>
   );
 }

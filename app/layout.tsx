@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { DarkProvider } from '@/components/providers';
 import { Nav } from '@/components/Nav';
+import { NavStrip } from '@/components/NavStrip';
 import { TermBar } from '@/components/TermBar';
 import { DataTicker } from '@/components/DataTicker';
 import './globals.css';
@@ -32,8 +33,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <DarkProvider>
           <Nav />
           <div className="shell">{children}</div>
-          <TermBar />
           <DataTicker />
+          <NavStrip />
+          <TermBar />
         </DarkProvider>
       </body>
     </html>
