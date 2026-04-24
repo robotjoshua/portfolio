@@ -884,7 +884,7 @@ html[data-dark] .rc-ab-ctrl{background:var(--paper);border-top-color:var(--rule-
 .op-meta{font-family:var(--f-m);font-size:10px;line-height:1.85;color:var(--muted);margin-top:20px;}
 .pill{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--rule-2);font-family:var(--f-m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:var(--r-s);transition:background .12s,color .12s,border-color .12s;}
 .pill:hover{border-color:var(--ink);}
-.pill.a{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.pill.a{background:var(--ink);color:var(--paper);border-color:var(--ink);text-decoration:none;}
 .pill .d{width:6px;height:6px;border-radius:50%;background:var(--ink);animation:blink 1.6s steps(2) infinite;}
 @keyframes blink{0%,55%{opacity:1}55%,100%{opacity:.25}}
 
@@ -1103,7 +1103,7 @@ html[data-dark] .tgl-sw.on .tgl-dot{background:var(--paper);}
 /* pills */
 html[data-dark] .pill{border-color:var(--rule-2);}
 html[data-dark] .pill:hover{border-color:var(--ink);}
-html[data-dark] .pill.a{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+html[data-dark] .pill.a{background:var(--ink);color:var(--paper);border-color:var(--ink);text-decoration:none;}
 html[data-dark] .pill .d{background:var(--ink);box-shadow:0 0 6px rgba(236,233,224,.45);}
 
 /* rsh badge */

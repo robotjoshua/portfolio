@@ -68,7 +68,7 @@ export default async function OperatorPage() {
             {first}
             {last ? <><br />{last}</> : null}
           </div>
-          <div className="op-email">{identity.email}</div>
+          <a className="op-email" href={`mailto:${identity.email}`}>{identity.email}</a>
           <div className="op-meta">
             {identity.addressLine}
             <br />
