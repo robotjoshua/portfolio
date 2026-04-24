@@ -58,10 +58,10 @@ export default async function IndexPage() {
             </div>
             <div className="idx-mast-role">{profile.identity.role}</div>
             {profile.identity.available && (
-              <div className="idx-mast-avail">
+              <a className="idx-mast-avail" href={`mailto:${profile.identity.email}`}>
                 <span className="idx-mast-avail-d" />
                 Available for commission
-              </div>
+              </a>
             )}
           </div>
 
