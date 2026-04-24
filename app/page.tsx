@@ -3,6 +3,7 @@ import { readArtifacts } from '@/lib/artifacts-server';
 import { GalleryGrid } from '@/components/GalleryGrid';
 import { NumScramble } from '@/components/NumScramble';
 import { ViewerFrame } from '@/components/ViewerFrame';
+import { Rain8Bit } from '@/components/Rain8Bit';
 import { readProfile } from '@/lib/profile-server';
 import { pad } from '@/lib/kinds';
 
@@ -132,6 +133,7 @@ export default async function IndexPage() {
             </nav>
           </section>
 
+          <Rain8Bit />
         </div>
 
         {/* CONTACT RAIL — links through to the Operator page */}
