@@ -13,11 +13,8 @@ const KIND_KANJI: Record<string, string> = {
   GRAPHIC: '図',
 };
 
-// show the artifact id on the slug line rather than a messy filename/extension
 function slugLabel(a: Artifact): string {
-  const c = (a.catNo || '').trim();
-  if (!c || /\.(jpe?g|png|webp|gif|tiff?)$/i.test(c)) return a.id;
-  return c.length > 22 ? a.id : c;
+  return a.id;
 }
 
 export function GalleryGrid({ artifacts, total }: { artifacts: Artifact[]; total?: number }) {

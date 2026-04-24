@@ -442,7 +442,6 @@ function AnalysisBay({ artifacts }: { artifacts: Artifact[] }) {
           </div>
           <div className="rc-ab-plate-id">
             <span>{a.id}</span>
-            <span>{a.catNo}</span>
           </div>
         </div>
         <div className="rc-ab-ctrl">
@@ -490,7 +489,7 @@ function AnalysisBay({ artifacts }: { artifacts: Artifact[] }) {
           </div>
           <div className="rc-ab-note-row">
             <span className="rc-ab-note-k">Status</span>
-            <span className="rc-ab-note-v">{a.status} · Cat. No. {a.catNo}</span>
+            <span className="rc-ab-note-v">{a.status}</span>
           </div>
         </div>
         <div className="rc-ab-foot">

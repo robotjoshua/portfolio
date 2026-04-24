@@ -16,11 +16,10 @@ export function RecordAccordion({ sel, related }: { sel: Artifact; related: Arti
   const sections: Section[] = [
     {
       k: 'Identity',
-      subtitle: `${sel.kind} · ${sel.catNo}`,
+      subtitle: `${sel.kind} · ${sel.year}`,
       body: (
         <div className="acc-kv">
           <div><span className="acc-k">Title</span><span className="acc-v">{sel.title}</span></div>
-          <div><span className="acc-k">Cat. No.</span><span className="acc-v">{sel.catNo}</span></div>
           <div><span className="acc-k">Year</span><span className="acc-v">{sel.year}</span></div>
           <div><span className="acc-k">Production</span><span className="acc-v">{sel.production}</span></div>
           <div><span className="acc-k">Status</span><span className="acc-v">{sel.status}</span></div>

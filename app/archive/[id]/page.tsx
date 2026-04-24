@@ -33,7 +33,7 @@ export default async function ArchivePage({ params }: { params: Promise<{ id: st
       <div className="arch-nav">
         <Link href="/catalog">← Catalog</Link>
         <span className="arch-nav-rule" />
-        <span className="arch-nav-id">{sel.catNo}</span>
+        <span className="arch-nav-id">{sel.id}</span>
         <span className="arch-nav-sp" />
         {prev ? <Link href={`/archive/${prev.id}`}>← Prev</Link> : <button disabled>← Prev</button>}
         <span className="arch-nav-pos">
@@ -54,8 +54,6 @@ export default async function ArchivePage({ params }: { params: Promise<{ id: st
           </div>
           <div className="arch-plate-foot">
             <span className="arch-pf-k">{sel.id}</span>
-            <span className="arch-pf-sep">·</span>
-            <span className="arch-pf-v">{sel.catNo}</span>
             <span className="arch-pf-sep">·</span>
             <span className="arch-pf-v">{sel.year}</span>
           </div>

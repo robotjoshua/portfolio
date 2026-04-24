@@ -177,11 +177,10 @@ export function ArchiveInlineEdit({ initial, related, readOnly = false }: Props)
   // ── read sections ─────────────────────────────────────────────────────────
   const readSections: Section[] = [
     {
-      k: 'Identity', subtitle: `${a.kind} · ${a.catNo}`,
+      k: 'Identity', subtitle: `${a.kind} · ${a.year}`,
       body: (
         <div className="acc-kv">
           <div><span className="acc-k">Title</span><span className="acc-v">{a.title}</span></div>
-          <div><span className="acc-k">Cat. No.</span><span className="acc-v">{a.catNo}</span></div>
           <div><span className="acc-k">Year</span><span className="acc-v">{a.year}</span></div>
           <div><span className="acc-k">Production</span><span className="acc-v">{a.production}</span></div>
           <div><span className="acc-k">Status</span><span className="acc-v">{a.status}</span></div>
