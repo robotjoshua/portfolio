@@ -1,5 +1,6 @@
 import { readProfile } from '@/lib/profile-server';
 import { ViewerFrame } from '@/components/ViewerFrame';
+import { ContactPill } from '@/components/ContactPill';
 
 export const dynamic = 'force-dynamic';
 
@@ -71,7 +72,7 @@ export default async function OperatorPage() {
             {identity.handle}
           </div>
           <div style={{ marginTop: 20, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <a className="pill a" href={`mailto:${identity.email}`}>Get in touch →</a>
+            <ContactPill email={identity.email} />
             {identity.available && (
               <button className="pill">
                 <span className="d" />
