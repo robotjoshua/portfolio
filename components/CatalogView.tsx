@@ -50,8 +50,6 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
 
   return (
     <ViewerFrame
-      tag="◆ Build Archive"
-      title="CATALOG · ALL KINDS"
       meta={`${pad(filtered.length, 3)} / ${pad(artifacts.length, 3)}`}
       leftRail={['CATALOG', nowLabel]}
       rightRail={['LIVE', hasFilter ? 'FILTERED' : 'ALL']}

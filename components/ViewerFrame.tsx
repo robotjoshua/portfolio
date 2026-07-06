@@ -28,8 +28,6 @@ const HANKO: Record<string, string> = {
 };
 
 export function ViewerFrame({
-  tag,
-  title,
   meta,
   leftRail,
   rightRail,
@@ -38,10 +36,6 @@ export function ViewerFrame({
   next,
   children,
 }: {
-  /** Top-left badge, e.g. "◆ Build Archive" */
-  tag: string;
-  /** Top-center title, e.g. "CATALOG · ALL KINDS" */
-  title: string;
   /** Top-right meta, e.g. "313 / 313" */
   meta?: string;
   /** Left vertical rail text parts (joined by · dots) */
@@ -116,13 +110,6 @@ export function ViewerFrame({
         <span className="vf-tick tl" aria-hidden />
         <span className="vf-tick bl" aria-hidden />
         {children}
-      </div>
-      <div className="vf-bot">
-        <span className="vf-tag">{tag}</span>
-        <span className="vf-rule" />
-        <span className="vf-title">{title}</span>
-        <span className="vf-rule" />
-        <span className="vf-bot-end" />
       </div>
     </div>
   );

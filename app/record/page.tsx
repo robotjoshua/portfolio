@@ -10,8 +10,6 @@ export default async function RecordLandingPage() {
   const nowLabel = new Date().toISOString().slice(0, 10);
   return (
     <ViewerFrame
-      tag="◆ Record"
-      title="EXPERIMENTAL CONSOLE · CH.01–08"
       meta={`${pad(artifacts.length, 3)} FEED`}
       leftRail={['RECORD', nowLabel]}
       rightRail={['LIVE', 'SCAN']}

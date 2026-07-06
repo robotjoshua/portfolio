@@ -12,8 +12,6 @@ export default async function OperatorPage() {
   const nowLabel = new Date().toISOString().slice(0, 10);
   return (
     <ViewerFrame
-      tag="◆ Operator File"
-      title={identity.callsign.toUpperCase()}
       meta={identity.available ? 'AVAILABLE' : 'ON ASSIGNMENT'}
       leftRail={['OPERATOR', nowLabel]}
       rightRail={['LIVE', identity.role.toUpperCase()]}

@@ -23,8 +23,6 @@ export default async function IndexPage() {
 
   return (
     <ViewerFrame
-      tag={`◆ ${profile.identity.callsign}`}
-      title="INDEX · OPERATOR PROFILE"
       meta={`${pad(artifactCount, 3)} ARTIFACTS`}
       leftRail={['INDEX', nowLabel]}
       rightRail={['LIVE', BUILD.production]}
