@@ -15,6 +15,7 @@ tsconfig.tsbuildinfo
 .vscode/
 .vs/
 .claude/settings.local.json
+.claude/worktrees/
 
 # Runtime content — sourced from Postgres + Netlify Blobs in prod.
 # Keep out of the repo; use scripts/db-seed.ts to migrate existing assets.
