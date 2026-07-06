@@ -69,7 +69,7 @@ Tokens from https://app.netlify.com/user/applications#personal-access-tokens. **
 
 - **Mobile breakpoints:** 900, 600, 380px. Mobile edges are tight — `.shell` and `.vf-wrap` trimmed to ~4px side margin on ≤600. Don't re-widen without checking.
 - **Nav icons (icon-only):** `♪`/`♫` (AmbientHum music), `◑` (theme toggle), `▣` (admin). Class `.nav-icon`.
-- **Layout order** (see `app/layout.tsx`): `Nav` → `shell/children` → `DataTicker` (vertical side rails, desktop only) → `NavStrip` (scrolling telemetry ticker at bottom) → `TermBar` (footer menu links). NavStrip lives at the bottom, above TermBar — not in the Nav.
+- **Layout order** (see `app/layout.tsx`): `Nav` → `shell/children` → `TermBar` (fixed footer colophon, no links). A 2026-07 minimalism pass deleted DataTicker, NavStrip, the Nav REV badge, and ViewerFrame's bottom bar + right rail — don't reintroduce fake/random data (telemetry, versions, scramble idle flicker). Every number on screen must be real. One bilingual accent per view: kanji lives only in ViewerFrame's left rail (hanko + kanji + date) and in content (GalleryGrid kind glyphs, RecordConsole). Motion budget: one ambient element per viewport (Rain8Bit on index); nav clock ticks minutes.
 - **Design system:** CSS vars `--paper`, `--paper-2`, `--ink`, `--muted`, `--faint`, `--rule-2/3`, `--accent`. Fonts `--f-d` (Space Grotesk), `--f-m` (JetBrains Mono). Geometric glyph set: ◈ ◆ ◇ ▣ ◑ ◎ △ ◤. Dark mode via `html[data-dark]`.
 
 ## How the user works
@@ -83,6 +83,6 @@ Tokens from https://app.netlify.com/user/applications#personal-access-tokens. **
 ## Common tweak shapes
 
 - **Mobile layout fix** — check 600px and 900px media query blocks at the end of `app/globals.css`; verify in preview at mobile preset.
-- **Nav/header content change** — `components/Nav.tsx` + `components/NavStrip.tsx`; icon styles in `.nav-icon`.
+- **Nav/header content change** — `components/Nav.tsx`; icon styles in `.nav-icon`.
 - **New/changed upload behavior** — touch both `app/api/admin/upload/route.ts` and `app/api/admin/uploads/route.ts` to keep parity.
 - **Admin-only UI** — gate server-side via `isAdminServer()` on a page, pass `readOnly`/`isAdmin` prop down. Middleware already blocks non-admins from `/admin` and `/api/admin` routes.
