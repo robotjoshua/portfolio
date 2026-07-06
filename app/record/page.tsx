@@ -11,8 +11,7 @@ export default async function RecordLandingPage() {
   return (
     <ViewerFrame
       meta={`${pad(artifacts.length, 3)} FEED`}
-      leftRail={['RECORD', nowLabel]}
-      rightRail={['LIVE', 'SCAN']}
+      date={nowLabel}
       currentLabel="RECORD"
       prev={{ label: 'CATALOG', href: '/catalog' }}
       next={[

@@ -13,8 +13,7 @@ export default async function OperatorPage() {
   return (
     <ViewerFrame
       meta={identity.available ? 'AVAILABLE' : 'ON ASSIGNMENT'}
-      leftRail={['OPERATOR', nowLabel]}
-      rightRail={['LIVE', identity.role.toUpperCase()]}
+      date={nowLabel}
       currentLabel="OPERATOR"
       prev={{ label: 'RECORD', href: '/record' }}
       next={[

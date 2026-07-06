@@ -29,8 +29,7 @@ const HANKO: Record<string, string> = {
 
 export function ViewerFrame({
   meta,
-  leftRail,
-  rightRail,
+  date,
   currentLabel,
   prev,
   next,
@@ -38,10 +37,8 @@ export function ViewerFrame({
 }: {
   /** Top-right meta, e.g. "313 / 313" */
   meta?: string;
-  /** Left vertical rail text parts (joined by · dots) */
-  leftRail?: string[];
-  /** Right vertical rail text parts */
-  rightRail?: string[];
+  /** ISO date shown at the foot of the rail */
+  date?: string;
   /** Bottom-center label */
   currentLabel: string;
   /** Bottom-left prev link */
@@ -54,9 +51,6 @@ export function ViewerFrame({
   const kana = KANA[key] ?? '';
   const kanji = KANJI[key] ?? '';
   const hanko = HANKO[key] ?? '◆';
-  const dateStr = (leftRail ?? rightRail ?? []).find((p) => /^\d{4}-\d{2}-\d{2}$/.test(p)) ?? '';
-  const leftExtras = (leftRail ?? []).filter((p) => p !== dateStr);
-  const rightExtras = (rightRail ?? []).filter((p) => p !== dateStr);
   return (
     <div className="pw vf-wrap">
       <div className="vf-top">
@@ -90,21 +84,9 @@ export function ViewerFrame({
       </div>
       <div className="vf-left">
         <span className="vf-rail-rule" aria-hidden />
-        <span className="vf-rail-mk"><b>◤</b></span>
-        <span className="vf-rail-kana">
-          {kanji}
-          {leftExtras.length > 0 && <i> · {leftExtras.join(' · ')}</i>}
-        </span>
-        <span className="vf-rail-txt">{dateStr || currentLabel}</span>
-      </div>
-      <div className="vf-right">
-        <span className="vf-rail-rule" aria-hidden />
         <span className="vf-hanko round" aria-hidden>{hanko}</span>
-        <span className="vf-rail-kana">
-          {kana}
-          {rightExtras.length > 0 && <i> · {rightExtras.join(' · ')}</i>}
-        </span>
-        <span className="vf-rail-txt">{dateStr ? `REV ${dateStr.slice(2).replace(/-/g, '·')}` : 'LIVE'}</span>
+        <span className="vf-rail-kana">{kanji}</span>
+        <span className="vf-rail-txt">{date || currentLabel}</span>
       </div>
       <div className="vf-viewer">
         <span className="vf-tick tl" aria-hidden />

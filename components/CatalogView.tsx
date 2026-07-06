@@ -51,8 +51,7 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
   return (
     <ViewerFrame
       meta={`${pad(filtered.length, 3)} / ${pad(artifacts.length, 3)}`}
-      leftRail={['CATALOG', nowLabel]}
-      rightRail={['LIVE', hasFilter ? 'FILTERED' : 'ALL']}
+      date={nowLabel}
       currentLabel="CATALOG"
       prev={{ label: 'INDEX', href: '/' }}
       next={[

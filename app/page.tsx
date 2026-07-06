@@ -24,8 +24,7 @@ export default async function IndexPage() {
   return (
     <ViewerFrame
       meta={`${pad(artifactCount, 3)} ARTIFACTS`}
-      leftRail={['INDEX', nowLabel]}
-      rightRail={['LIVE', BUILD.production]}
+      date={nowLabel}
       currentLabel="INDEX"
       next={[
         { label: 'CATALOG', href: '/catalog' },

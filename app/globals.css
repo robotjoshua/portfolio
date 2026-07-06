@@ -180,26 +180,19 @@ html[data-dark] .gm-hanko{background:rgba(20,22,17,.85);}
 .vf-meta{font-variant-numeric:tabular-nums;color:var(--ink);}
 .vf-rule{flex:1;height:1px;background:repeating-linear-gradient(90deg,var(--rule-2) 0 4px,transparent 4px 7px);}
 .vf-left{grid-column:1;grid-row:2;}
-.vf-right{grid-column:3;grid-row:2;}
-.vf-left,.vf-right{display:grid;grid-template-rows:auto 1fr auto;align-items:stretch;justify-items:center;min-height:0;padding:10px 0 12px;font-family:var(--f-m);font-weight:500;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);position:relative;}
+.vf-left{display:grid;grid-template-rows:auto 1fr auto;align-items:stretch;justify-items:center;min-height:0;padding:10px 0 12px;font-family:var(--f-m);font-weight:500;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);position:relative;}
 /* vertical kanji/katakana column — true top-to-bottom Japanese text */
 .vf-rail-kana{writing-mode:vertical-rl;text-orientation:upright;font-size:10px;letter-spacing:.4em;color:var(--ink);line-height:1.1;font-weight:600;padding:6px 0;}
 .vf-rail-kana i{font-style:normal;color:var(--muted);font-weight:500;font-size:8.5px;letter-spacing:.3em;}
 .vf-rail-txt{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--f-m);font-size:9px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;font-variant-numeric:tabular-nums;line-height:1.1;padding:4px 0;}
-.vf-rail-dot{width:4px;height:4px;border-radius:50%;background:var(--muted);}
 /* tick ruler — runs along the inner edge of the rail */
 .vf-rail-rule{position:absolute;top:16px;bottom:16px;width:8px;pointer-events:none;}
 .vf-left .vf-rail-rule{right:2px;background:repeating-linear-gradient(to bottom,var(--rule-2) 0 1px,transparent 1px 12px);}
-.vf-right .vf-rail-rule{left:2px;background:repeating-linear-gradient(to bottom,var(--rule-2) 0 1px,transparent 1px 12px);}
-.vf-left .vf-rail-rule::after,.vf-right .vf-rail-rule::after{content:'';position:absolute;top:0;bottom:0;width:4px;background:repeating-linear-gradient(to bottom,var(--ink) 0 1px,transparent 1px 60px);}
-.vf-left .vf-rail-rule::after{right:0;}
-.vf-right .vf-rail-rule::after{left:0;}
+.vf-left .vf-rail-rule::after{content:'';position:absolute;top:0;bottom:0;width:4px;right:0;background:repeating-linear-gradient(to bottom,var(--ink) 0 1px,transparent 1px 60px);}
 /* hanko — red seal stamp */
 .vf-hanko{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border:1.5px solid var(--accent);color:var(--accent);font-family:var(--f-d);font-weight:600;font-size:13px;letter-spacing:0;line-height:1;border-radius:0;transform:rotate(-4deg);opacity:.88;}
 .vf-hanko.round{border-radius:50%;width:28px;height:28px;}
 /* tiny bracket corners on the rail */
-.vf-rail-mk{display:flex;gap:3px;align-items:center;color:var(--faint);font-size:8px;letter-spacing:.14em;font-variant-numeric:tabular-nums;}
-.vf-rail-mk b{color:var(--ink);font-weight:600;}
 .vf-dot{opacity:.6;}
 .vf-link{color:var(--ink);transition:color .12s,border-color .12s,background .12s;padding:2px 8px;border-radius:0;}
 .vf-link:hover{color:var(--accent);background:var(--rule-3);}
@@ -929,12 +922,12 @@ html[data-dark] .rc-ab-ctrl{background:var(--paper);border-top-color:var(--rule-
   .pw{flex:none;min-height:0;overflow:visible;padding:16px 14px 72px;max-width:100%;}
   .vf-wrap{grid-template-columns:18px minmax(0,1fr) 18px!important;padding:0 14px 14px!important;max-width:100%!important;gap:0;}
   .vf-top{gap:6px;padding:0 2px 8px;font-size:10px;letter-spacing:.12em;flex-wrap:wrap;row-gap:4px;}
-  .vf-left,.vf-right{padding:6px 0 8px;}
+  .vf-left{padding:6px 0 8px;}
   .vf-rail-kana{font-size:9px;letter-spacing:.3em;padding:4px 0;}
   .vf-rail-kana i{font-size:7.5px;letter-spacing:.22em;}
   .vf-rail-txt{font-size:8px;letter-spacing:.2em;padding:3px 0;}
   .vf-hanko,.vf-hanko.round{width:20px;height:20px;font-size:10px;}
-  .vf-left .vf-rail-rule,.vf-right .vf-rail-rule{width:6px;top:10px;bottom:10px;}
+  .vf-left .vf-rail-rule{width:6px;top:10px;bottom:10px;}
   .sh{gap:10px;padding-bottom:10px;margin-bottom:14px;flex-wrap:wrap;}
   .ev-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;padding:12px 4px 16px;}
   .gal-grid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));}
