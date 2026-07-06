@@ -18,7 +18,6 @@ export default async function IndexPage() {
   const nowLabel = new Date().toISOString().slice(0, 10);
   const artifactCount = artifacts.length;
   const creditCount = (profile.cv ?? []).length;
-  const recordChapters = 8;
 
   return (
     <ViewerFrame
@@ -109,7 +108,7 @@ export default async function IndexPage() {
                 <span className="idx-dir-n">II.</span>
                 <span className="idx-dir-k">Record</span>
                 <span className="idx-dir-sep" />
-                <span className="idx-dir-v">CH.01–{pad(recordChapters, 2)} Scan</span>
+                <span className="idx-dir-v">Analysis Bay</span>
                 <span className="idx-dir-arr">→</span>
               </Link>
               <Link href="/operator" className="idx-dir-row">

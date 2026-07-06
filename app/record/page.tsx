@@ -10,7 +10,7 @@ export default async function RecordLandingPage() {
   const nowLabel = new Date().toISOString().slice(0, 10);
   return (
     <ViewerFrame
-      meta={`${pad(artifacts.length, 3)} FEED`}
+      meta={`${pad(artifacts.length, 3)} SPECIMENS`}
       date={nowLabel}
       currentLabel="RECORD"
       prev={{ label: 'CATALOG', href: '/catalog' }}
