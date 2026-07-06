@@ -26,6 +26,10 @@ export function Nav({ recLabel }: { recLabel?: string }) {
           <b>Archive · JP</b>
           <i>アーカイブ</i>
         </span>
+        <span className="nav-rev">
+          <span className="nav-rev-k">REV</span>
+          <span className="nav-rev-v">26·Ω·07</span>
+        </span>
         <span className="nav-sp" />
         <span className="nav-utc">
           {now ? now.toISOString().replace('T', ' ').slice(0, 19) + 'Z' : '\u00a0'}

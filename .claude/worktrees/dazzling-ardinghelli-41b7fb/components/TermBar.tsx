@@ -13,7 +13,7 @@ export function TermBar() {
   const router = useRouter();
   return (
     <div className="term-bar">
-      <span className="tver">◈ JP-ARCHIVE · {new Date().getFullYear()}</span>
+      <span className="tver">◈ JP-ARCHIVE v1.0 · {new Date().getFullYear()}</span>
       <span className="tlinks">
         {LINKS.map((s, i) => (
           <Fragment key={s.label}>

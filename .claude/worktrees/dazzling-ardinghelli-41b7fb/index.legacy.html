@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Joshua Powell · Prop Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --paper:#ece9e0; --paper-2:#f1eee5; --card:#f6f3ea;
+  --ink:#171813; --ink-2:#2a2c24;
+  --muted:#7a7d72; --faint:#b4b7ab;
+  --rule:#171813; --rule-2:#cdd0c2; --rule-3:#dfe2d5;
+  --f-d:'Space Grotesk',ui-sans-serif,sans-serif;
+  --f-m:'JetBrains Mono',ui-monospace,monospace;
+  --r-s:6px; --r-m:10px; --r-l:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--ink);height:100%;}
+body{height:100%;overflow:hidden;background:var(--paper);color:var(--ink);font-family:var(--f-d);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+input{font:inherit;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:52px;background:var(--ink);color:var(--paper);display:flex;align-items:center;padding:0 36px;font-family:var(--f-m);font-size:10px;letter-spacing:.14em;text-transform:uppercase;z-index:100;border-bottom:1px solid rgba(255,255,255,.07);user-select:none;}
+.nav-mark{color:var(--paper);margin-right:18px;font-size:14px;opacity:.9;}
+.nav-id{opacity:.4;margin-right:0;}
+.nav-sep{width:1px;height:14px;background:rgba(255,255,255,.12);margin:0 22px;flex-shrink:0;}
+.nav-tabs{display:flex;gap:4px;}
+.nav-tab{padding:18px 16px;cursor:pointer;opacity:.4;border-bottom:2px solid transparent;transition:opacity .12s,border-color .12s;line-height:1;margin-bottom:-1px;white-space:nowrap;}
+.nav-tab:hover{opacity:.75;}
+.nav-tab.on{opacity:1;border-bottom-color:var(--paper);}
+.nav-sp{flex:1;}
+.nav-utc{opacity:.32;font-variant-numeric:tabular-nums;font-size:9.5px;}
+
+/* SHELL */
+.shell{padding-top:52px;height:calc(100vh - 52px);display:flex;flex-direction:column;overflow:hidden;}
+.pw{flex:1;min-height:0;display:flex;flex-direction:column;max-width:1440px;width:100%;margin:0 auto;padding:32px 44px 26px;overflow:hidden;animation:fi .28s ease both;}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* SECTION HEADER */
+.sh{flex-shrink:0;display:flex;align-items:baseline;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:22px;}
+.sh .sl{font-family:var(--f-m);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.sh .sc{font-family:var(--f-m);font-size:10px;color:var(--faint);}
+.sh .ss{flex:1;}
+
+/* INDEX 2-COL */
+.idx-name{font-family:var(--f-d);font-weight:500;font-size:clamp(34px,5.8vh,70px);line-height:.88;letter-spacing:-.05em;}
+.idx-wrap{flex-direction:row!important;padding:0!important;max-width:none!important;gap:0;}
+.idx-left{width:296px;flex-shrink:0;display:flex;flex-direction:column;padding:34px 34px 28px;border-right:1px solid var(--rule-3);overflow:hidden;gap:26px;}
+.idx-right{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding:24px 28px 24px;}
+
+/* MICRO STAT ROWS */
+.msr{display:flex;align-items:baseline;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--rule-3);}
+.msr:last-child{border-bottom:none;}
+.msr-k{font-family:var(--f-m);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.msr-v{font-family:var(--f-d);font-weight:500;font-size:22px;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;}
+
+/* GALLERY (index right panel) */
+.gal-hdr{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:10px 4px 14px;font-family:var(--f-m);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.gal-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:6px;overflow:hidden;align-content:start;}
+.gal-c{position:relative;aspect-ratio:1;overflow:hidden;background:var(--paper-2);cursor:pointer;border-radius:var(--r-s);transition:transform .18s ease,box-shadow .18s ease;}
+.gal-c:hover{z-index:2;transform:translateY(-2px);box-shadow:0 8px 22px -12px rgba(23,24,19,.28);}
+.gal-c.sel{outline:1.5px solid var(--ink);outline-offset:-1px;}
+
+/* PROP CELLS (catalog) */
+.ev-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:12px;overflow-y:auto;align-content:start;padding:18px 24px 22px;}
+.ev-cell{position:relative;background:var(--paper-2);cursor:pointer;display:flex;flex-direction:column;border-radius:var(--r-m);overflow:hidden;animation:evi .4s cubic-bezier(.2,.7,.2,1) both;transition:transform .18s ease,box-shadow .18s ease;}
+.ev-cell:hover{transform:translateY(-2px);box-shadow:0 10px 24px -14px rgba(23,24,19,.3);}
+@keyframes evi{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+.ev-plate{aspect-ratio:1;position:relative;overflow:hidden;flex-shrink:0;}
+.ev-art{position:absolute;inset:0;}
+.ev-tag{flex-shrink:0;display:flex;justify-content:space-between;align-items:center;padding:7px 11px;background:var(--paper);border-top:1px solid var(--rule-3);font-family:var(--f-m);font-size:7.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);}
+.ev-tag-id{color:var(--ink);}
+.ev-cell:hover .ev-tag{background:var(--ink);color:var(--paper);}
+.ev-cell:hover .ev-tag-id{color:var(--paper);}
+.ev-cell.sel{outline:1.5px solid var(--ink);outline-offset:-1px;}
+.ev-cell.sel .ev-tag{background:var(--ink);color:var(--paper);}
+.ev-cell.sel .ev-tag-id{color:var(--paper);}
+
+/* CATALOG */
+.cat-ctrl{flex-shrink:0;display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+
+/* CATALOG — 2-col dashboard */
+.cat-wrap{flex-direction:row!important;padding:0!important;max-width:none!important;}
+.cat-side{width:256px;flex-shrink:0;display:flex;flex-direction:column;padding:30px 26px 24px;border-right:1px solid var(--rule-3);overflow-y:auto;gap:22px;}
+.cat-main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
+.cs-sec{display:flex;flex-direction:column;gap:2px;}
+.cs-h{font-family:var(--f-m);font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);padding-bottom:9px;border-bottom:1px solid var(--rule-3);margin-bottom:6px;display:flex;justify-content:space-between;}
+.cs-h span:last-child{color:var(--faint);}
+.cs-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-family:var(--f-m);font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-radius:var(--r-s);transition:background .12s,color .12s;}
+.cs-item:hover{color:var(--ink);background:var(--rule-3);}
+.cs-item.on{color:var(--paper);background:var(--ink);}
+.cs-sym{font-size:9px;margin-right:7px;}
+.cs-c{font-variant-numeric:tabular-nums;opacity:.75;}
+.cs-stat{display:flex;align-items:baseline;gap:8px;padding:18px 4px 6px;border-top:1px solid var(--rule-3);margin-top:auto;}
+.cs-stat-v{font-family:var(--f-d);font-weight:500;font-size:32px;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums;}
+.cs-stat-k{font-family:var(--f-m);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.cs-q{width:100%;padding:10px 14px;font-family:var(--f-m);font-size:10.5px;letter-spacing:.04em;background:var(--paper-2);border:1px solid var(--rule-2);color:var(--ink);outline:none;margin-top:10px;border-radius:var(--r-s);transition:border-color .12s;}
+.cs-q:focus{border-color:var(--ink);}
+.cs-q::placeholder{color:var(--faint);}
+.cs-clear{width:100%;margin-top:10px;padding:9px 14px;font-family:var(--f-m);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);border:1px solid var(--rule-2);background:transparent;cursor:pointer;border-radius:var(--r-s);transition:background .12s,color .12s,border-color .12s;}
+.cs-clear:hover{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.cat-topbar{flex-shrink:0;display:flex;align-items:center;gap:16px;padding:18px 28px;border-bottom:1px solid var(--rule-3);font-family:var(--f-m);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
+.cat-topbar .ctb-l{color:var(--ink);}
+
+/* RECORD related strip */
+.rec-rel{flex-shrink:0;border-top:1px solid var(--rule-3);padding:18px 0 0;margin-top:20px;display:flex;align-items:stretch;gap:14px;}
+.rec-rel-h{flex-shrink:0;width:132px;padding:6px 14px 6px 0;font-family:var(--f-m);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.rec-rel-h b{display:block;color:var(--ink);font-weight:500;font-size:9.5px;margin-top:4px;}
+.rec-rel-grid{flex:1;display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;}
+.rec-rel-c{flex-shrink:0;width:62px;height:62px;position:relative;background:var(--paper-2);cursor:pointer;overflow:hidden;border-radius:var(--r-s);transition:transform .18s ease,box-shadow .18s ease;}
+.rec-rel-c:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(23,24,19,.3);z-index:1;}
+.rec-rel-c-tag{position:absolute;bottom:0;left:0;right:0;background:rgba(23,24,19,.78);color:rgba(236,233,224,.92);font-family:var(--f-m);font-size:6.5px;letter-spacing:.08em;padding:2px 5px;text-align:center;}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--rule-2);font-family:var(--f-m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;background:transparent;border-radius:var(--r-s);transition:all .12s;}
+.chip:hover{color:var(--ink);border-color:var(--ink);}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.chip .ks{font-size:8px;}
+.cat-q{flex:1;min-width:180px;padding:8px 14px;font-family:var(--f-m);font-size:11px;letter-spacing:.04em;background:transparent;border:1px solid var(--rule-2);color:var(--ink);outline:none;border-radius:var(--r-s);transition:border-color .12s;}
+.cat-q:focus{border-color:var(--ink);}
+
+/* RECORD */
+.rec-nav{display:flex;align-items:center;gap:14px;margin-bottom:28px;font-family:var(--f-m);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.rec-nav button{color:var(--muted);transition:color .12s;}
+.rec-nav button:hover{color:var(--ink);}
+.rec-nav button:disabled{opacity:.25;pointer-events:none;}
+.rec-nav .rn-id{color:var(--ink);}
+.rec-nav .rn-sp{flex:1;}
+.rec-nav .rn-pos{color:var(--faint);}
+
+.rec-layout{flex:1;min-height:0;display:grid;grid-template-columns:1.5fr 1fr;gap:20px;overflow:hidden;}
+.rec-plate{position:relative;height:100%;background:var(--paper-2);overflow:hidden;border-radius:var(--r-l);}
+.rec-plate .rp-art{position:absolute;inset:0;}
+.rp-bot{position:absolute;bottom:0;left:0;right:0;z-index:3;display:grid;grid-template-columns:1fr auto;gap:14px;padding:14px 20px;background:linear-gradient(to top,rgba(23,24,19,.86),rgba(23,24,19,0));font-family:var(--f-m);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(236,233,224,.92);}
+.rp-bot-r{text-align:right;}
+.rec-side-panel{display:flex;flex-direction:column;height:100%;overflow-y:auto;background:var(--paper-2);border-radius:var(--r-l);padding:4px 0;}
+.rec-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--rule-3);gap:14px;}
+.rec-row:last-child{border-bottom:0;}
+.rec-row .rk{font-family:var(--f-m);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.rec-row .rv{font-family:var(--f-m);font-size:11px;text-align:right;}
+.rec-pal{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;padding:0 22px;}
+.rec-pal-chip{width:38px;height:22px;border:1px solid var(--rule-2);border-radius:4px;}
+.rec-pal-hex{font-family:var(--f-m);font-size:7.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:5px;text-align:center;}
+.rec-note{font-family:var(--f-m);font-size:11px;line-height:1.7;color:var(--ink-2);padding:18px 20px;border:1px solid var(--rule-3);background:var(--paper);margin:0 22px 22px;border-radius:var(--r-m);}
+.rec-note-label{font-family:var(--f-m);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 22px 10px;}
+
+/* OPERATOR */
+.op-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;overflow:hidden;}
+.op-panel{padding:32px 36px;overflow-y:auto;background:var(--paper-2);border-radius:var(--r-l);}
+.op-h{font-family:var(--f-m);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding-bottom:14px;border-bottom:1px solid var(--rule-3);margin-bottom:22px;}
+.sk-grp{margin-bottom:16px;}
+.sk-cat{font-family:var(--f-m);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:10px;}
+.sk-row{margin-bottom:8px;}
+.sk-row .top{display:flex;justify-content:space-between;margin-bottom:3px;}
+.sk-row .k{font-family:var(--f-m);font-size:10.5px;}
+.sk-row .n{font-family:var(--f-m);font-size:10px;color:var(--muted);}
+.sk-bar{height:2px;background:var(--rule-3);overflow:hidden;}
+.sk-bar>i{display:block;height:100%;background:var(--ink);animation:fill .8s cubic-bezier(.2,.7,.2,1) both;}
+@keyframes fill{from{width:0}}
+.cv-row{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule-3);align-items:start;}
+.cv-row:last-child{border-bottom:0;}
+.cv-yr{font-family:var(--f-m);font-size:10px;color:var(--muted);padding-top:2px;}
+.cv-t{font-size:13px;line-height:1.35;}
+.cv-s{font-family:var(--f-m);font-size:9px;color:var(--muted);margin-top:4px;}
+.op-name{font-family:var(--f-d);font-weight:500;font-size:clamp(30px,3.2vw,48px);letter-spacing:-.035em;line-height:1.04;}
+.op-email{font-family:var(--f-m);font-size:12px;color:var(--ink);margin-top:18px;letter-spacing:.04em;border-bottom:1px solid var(--rule-2);padding-bottom:4px;display:inline-block;}
+.op-meta{font-family:var(--f-m);font-size:10px;line-height:1.85;color:var(--muted);margin-top:20px;}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--rule-2);font-family:var(--f-m);font-size:10px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:var(--r-s);transition:background .12s,color .12s,border-color .12s;}
+.pill:hover{border-color:var(--ink);}
+.pill.a{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.pill .d{width:6px;height:6px;border-radius:50%;background:var(--ink);animation:blink 1.6s steps(2) infinite;}
+@keyframes blink{0%,55%{opacity:1}55%,100%{opacity:.25}}
+
+/* BUILD SEGMENTS */
+.d-segs{display:flex;gap:3px;}
+.d-seg{flex:1;height:14px;display:flex;align-items:center;justify-content:center;font-family:var(--f-m);font-size:6px;letter-spacing:.08em;text-transform:uppercase;border-radius:2px;}
+.d-seg.done{background:var(--ink-2);color:var(--paper);}
+.d-seg.act{background:var(--ink);color:var(--paper);}
+.d-seg.todo{background:var(--rule-3);color:var(--faint);}
+.d-live{color:var(--ink);}
+
+/* RECORD HERO STAT */
+.rsh{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:22px 22px 18px;border-bottom:1px solid var(--rule-3);}
+.rsh-sym{font-size:38px;line-height:1;}
+.rsh-kind{font-family:var(--f-m);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.rsh-title{font-family:var(--f-d);font-weight:500;font-size:15px;letter-spacing:-.02em;margin-top:5px;line-height:1.2;}
+.rsh-badge{display:inline-block;font-family:var(--f-m);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--ink);color:var(--ink);margin-top:10px;border-radius:3px;}
+
+/* TOGGLE ROWS */
+.tgl-row{display:flex;align-items:center;padding:11px 22px;border-bottom:1px solid var(--rule-3);gap:14px;}
+.tgl-row:last-child{border-bottom:none;}
+.tgl-k{font-family:var(--f-m);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);width:82px;flex-shrink:0;}
+.tgl-v{font-family:var(--f-m);font-size:11px;flex:1;}
+.tgl-sw{display:inline-flex;align-items:center;width:40px;height:20px;border:1.5px solid var(--rule-2);padding:2px 3px;flex-shrink:0;border-radius:12px;transition:background .15s,border-color .15s;}
+.tgl-sw.on{background:var(--ink);border-color:var(--ink);}
+.tgl-dot{width:11px;height:11px;background:var(--rule-2);flex-shrink:0;border-radius:50%;transition:background .15s;}
+.tgl-sw.on .tgl-dot{background:var(--paper);margin-left:auto;}
+.tgl-lab{font-family:var(--f-m);font-size:7.5px;letter-spacing:.12em;color:var(--faint);width:18px;text-align:center;flex-shrink:0;}
+
+@media(max-width:900px){
+  .idx-wrap{flex-direction:column!important;}
+  .idx-left{width:100%;border-right:none;border-bottom:1px solid var(--rule-3);}
+  .idx-right{min-height:280px;}
+  .rec-layout{grid-template-columns:1fr;}
+  .op-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .pw{padding:20px 20px 60px;}
+  .ev-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));}
+  .gal-grid{grid-template-columns:repeat(auto-fill,minmax(60px,1fr));}
+  .nav-id,.nav-utc{display:none;}
+}
+
+/* ══════════════════════════════════════
+   DARK MODE  ·  sage / white-glow
+   ══════════════════════════════════════ */
+html[data-dark]{
+  --paper:#101411; --paper-2:#171b17; --card:#1d221d;
+  --ink:#ece9e0; --ink-2:#c8ccba;
+  --muted:#7a7d72; --faint:#3d4139;
+  --rule:#ece9e0; --rule-2:#2a2e28; --rule-3:#1c201c;
+}
+html[data-dark] body{background:var(--paper);}
+
+/* soft white glow on display elements */
+html[data-dark] .idx-name{text-shadow:0 0 24px rgba(236,233,224,.22),0 0 48px rgba(236,233,224,.08);}
+html[data-dark] .msr-v{text-shadow:0 0 14px rgba(236,233,224,.15);}
+html[data-dark] .rsh-sym{text-shadow:0 0 18px rgba(236,233,224,.22);}
+html[data-dark] .cs-stat-v{text-shadow:0 0 16px rgba(236,233,224,.18);}
+html[data-dark] .op-name{text-shadow:0 0 20px rgba(236,233,224,.18);}
+
+/* nav dark */
+html[data-dark] .nav{background:#0a0d0a;color:var(--ink);border-bottom-color:var(--rule-2);}
+html[data-dark] .nav-mark{color:var(--ink);}
+html[data-dark] .nav-sep{background:rgba(236,233,224,.14);}
+html[data-dark] .nav-tab.on{border-bottom-color:var(--ink);}
+html[data-dark] .rp-bot{background:linear-gradient(to top,rgba(10,13,10,.88),rgba(10,13,10,0));color:var(--ink);}
+
+/* gal cells */
+html[data-dark] .gal-c{background:var(--paper-2);}
+html[data-dark] .gal-c:hover{box-shadow:0 8px 22px -10px rgba(236,233,224,.18);}
+html[data-dark] .gal-c.sel{outline-color:var(--ink);}
+
+/* ev cells */
+html[data-dark] .ev-cell{background:var(--paper-2);}
+html[data-dark] .ev-cell:hover{box-shadow:0 10px 26px -12px rgba(236,233,224,.18);}
+html[data-dark] .ev-tag{background:var(--paper-2);border-top-color:var(--rule-3);}
+html[data-dark] .ev-cell:hover .ev-tag,
+html[data-dark] .ev-cell.sel .ev-tag{background:var(--ink);color:var(--paper);}
+html[data-dark] .ev-cell.sel{outline-color:var(--ink);}
+
+/* chip / input */
+html[data-dark] .chip{border-color:var(--rule-2);}
+html[data-dark] .chip:hover{border-color:var(--ink);}
+html[data-dark] .chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+html[data-dark] .cat-q,
+html[data-dark] .cs-q{border-color:var(--rule-2);color:var(--ink);background:var(--paper-2);}
+html[data-dark] .cat-q::placeholder,
+html[data-dark] .cs-q::placeholder{color:var(--muted);}
+
+/* cs items */
+html[data-dark] .cs-item{color:var(--muted);}
+html[data-dark] .cs-item:hover{color:var(--ink);background:var(--paper-2);}
+html[data-dark] .cs-item.on{background:var(--ink);color:var(--paper);}
+html[data-dark] .cs-clear{border-color:var(--rule-2);color:var(--ink);}
+html[data-dark] .cs-clear:hover{background:var(--ink);color:var(--paper);}
+
+/* sides / rules */
+html[data-dark] .idx-left,
+html[data-dark] .cat-side,
+html[data-dark] .cat-topbar{border-color:var(--rule-3);}
+
+/* rec panels */
+html[data-dark] .rec-plate,
+html[data-dark] .rec-side-panel,
+html[data-dark] .op-panel{background:var(--paper-2);}
+html[data-dark] .rec-note{background:var(--paper);border-color:var(--rule-3);color:var(--ink-2);}
+
+/* toggle switches */
+html[data-dark] .tgl-sw{border-color:var(--rule-2);}
+html[data-dark] .tgl-sw.on{background:var(--ink);border-color:var(--ink);}
+html[data-dark] .tgl-dot{background:var(--rule-2);}
+html[data-dark] .tgl-sw.on .tgl-dot{background:var(--paper);}
+
+/* pills */
+html[data-dark] .pill{border-color:var(--rule-2);}
+html[data-dark] .pill:hover{border-color:var(--ink);}
+html[data-dark] .pill.a{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+html[data-dark] .pill .d{background:var(--ink);box-shadow:0 0 6px rgba(236,233,224,.45);}
+
+/* rsh badge */
+html[data-dark] .rsh-badge{border-color:var(--ink);color:var(--ink);}
+
+/* STATUS BAR */
+.term-bar{
+  display:none;position:fixed;bottom:0;left:0;right:0;height:26px;
+  background:#0a0d0a;border-top:1px solid var(--rule-2);
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:#6a6d62;align-items:center;padding:0 26px;gap:0;z-index:99;
+  user-select:none;
+}
+html[data-dark] .term-bar{display:flex;}
+html[data-dark] .shell{height:calc(100vh - 52px - 26px);}
+.tk{color:var(--ink);margin-right:3px;text-shadow:0 0 10px rgba(236,233,224,.3);}
+.tsep{width:1px;height:11px;background:var(--rule-2);margin:0 16px;flex-shrink:0;}
+.tver{margin-left:auto;letter-spacing:.12em;}
+
+/* theme toggle button */
+.nav-theme{font-family:var(--f-m);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.32);padding:8px 12px;border:1px solid rgba(255,255,255,.1);
+  cursor:pointer;border-radius:var(--r-s);transition:all .12s;margin-left:12px;}
+.nav-theme:hover{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.28);}
+html[data-dark] .nav-theme{color:var(--ink);border-color:var(--rule-2);}
+html[data-dark] .nav-theme:hover{border-color:var(--ink);}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script type="text/babel">
+const {useState,useEffect,useMemo}=React;
+
+function hash(n,s=0){let x=(n*9301+s*49297+233280)%233280;return x/233280;}
+function pad(n,w=3){return String(n).padStart(w,'0');}
+
+const KINDS=['WEAPON','ARMOR','TECH','SET-DRESS','HERO','GRAPHIC'];
+const KS={WEAPON:'✕',ARMOR:'▣',TECH:'⊕','SET-DRESS':'▤',HERO:'◆',GRAPHIC:'△'};
+
+const PRODUCTIONS=[
+  ['Horizon Protocol','US',34.05,-118.24],['Ironclad','US',33.75,-84.39],
+  ['Neon Requiem','US',40.71,-74.01],['The Variant','US',40.71,-74.01],
+  ['Void Station','CA',49.28,-123.12],['Deep Cut','US',30.27,-97.74],
+  ['Parallel','UK',51.51,-0.13],['Echelon Rising','CZ',50.08,14.44],
+  ['WonderCon 2024','US',33.84,-117.91],['Denver Comic-Con','US',39.74,-104.99],
+];
+const MATERIALS=['EVA foam, contact cement','Thermoplastic (Worbla)','Urethane resin, cast','3D print (PLA), filler primer','Aluminum sheet, pop rivets','Foam clay over wire armature','MDF, Bondo, high-build primer','Laser-cut acrylic, vinyl wrap','Carbon fiber laminate','Mixed: resin + foam core'];
+const FINISHES=['Flat black, enamel wash','Chrome powder, sealed','Metallic rub, patina wash','Airbrush gradient, matte seal','Battle-worn, chipping fluid','High-gloss lacquer','Matte topcoat, grime washes','Brushed aluminum effect','Rust/oxide effect, sealed','Painted + LED integrated'];
+const STATUSES=['HERO','STUNT','DISPLAY','ARCHIVE'];
+const TITLES=['Sidearm · 01','Sidearm · 02','Sidearm · 03','Blade Rig · 01','Blade Rig · 02','Carbine · 01','Carbine · 02','Helm · 01','Helm · 02','Helm · 03','Chestpiece · 01','Chestpiece · 02','Gauntlet Set · 01','Pauldron Set · 01','Vambrace Pair · 01','Scanner Unit · 01','Scanner Unit · 02','Comm Device · 01','Console Panel · 01','Holo Module · 01','Data Pad · 01','Tracker Unit · 01','Crate Set · 01','Book Prop · 01','Terminal · 01','Wall Plaque · 01','Hero Sword · 01','Hero Shield · 01','Staff Prop · 01','Feature Helm · 01','Badge Plate · 01','Insignia Set · 01','Decal Sheet · 01','Patch Design · 01','Grenade · 01','Grenade · 02','Backpack Rig · 01','Wrist Unit · 01','Medallion · 01','Floor Unit · 01'];
+const PALETTES=[['#1a1a18','#8a7a6a','#e4dfd4'],['#1a1a18','#b14a36','#e9ecdf'],['#2a2018','#7a6040','#d4c8a8'],['#181818','#484848','#d8d8d8'],['#1a1818','#604840','#d8ccc4'],['#101418','#405060','#c8d4dc'],['#1a1a18','#7a7868','#dcdad0'],['#2a2820','#5a5248','#ccc4b8']];
+const NOTES=['Commissioned for principal photography. Hero build, single unit.','Paired with matching scabbard, archived separately.','Structural test passed — stunt crew approved for contact.','LED system integrated; 3 hr runtime on lithium cell pack.','Vacuum-formed over buck. Surface dressed by set dec on location.','Original design; client approved at concept review 02.'];
+
+const ARTIFACTS=Array.from({length:40},(_,i)=>{
+  const h=k=>hash(i,k);
+  const year=[2021,2022,2023,2024,2025][Math.floor(h(1)*5)];
+  const prod=PRODUCTIONS[Math.floor(h(2)*PRODUCTIONS.length)];
+  const kind=KINDS[Math.floor(h(3)*KINDS.length)];
+  const pal=PALETTES[Math.floor(h(4)*PALETTES.length)];
+  const mat=MATERIALS[Math.floor(h(5)*MATERIALS.length)];
+  const fin=FINISHES[Math.floor(h(6)*FINISHES.length)];
+  const stat=STATUSES[Math.floor(h(7)*STATUSES.length)];
+  const w=[12,18,24,30,8,42][Math.floor(h(8)*6)];
+  const hh=[10,16,22,30,6,38][Math.floor(h(9)*6)];
+  const d=[4,6,8,10,3,12][Math.floor(h(10)*6)];
+  return{id:`JP-${pad(i+1)}`,catNo:`${kind}.${year}.${pad(i+1,2)}`,title:TITLES[i%TITLES.length],year,kind,production:prod[0],provenance:{city:prod[0],country:prod[1],lat:prod[2],lon:prod[3]},material:mat,finish:fin,status:stat,dims:`${hh} × ${w} × ${d} cm`,palette:pal,index:i+1,note:NOTES[Math.floor(h(12)*NOTES.length)]};
+});
+
+// PLATES
+function rnd(s,t=0){let x=(s*9301+t*49297+233280)%233280;return x/233280;}
+function PlateGrid({seed:s,palette:p}){
+  const c=8+Math.floor(rnd(s,1)*6),f=[];
+  for(let i=0;i<c*c;i++)if(rnd(s,10+i)<0.26)f.push(i);
+  return<svg viewBox={`0 0 ${c} ${c}`}preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={c}height={c}fill="var(--paper-2)"/>{Array.from({length:c-1}).map((_,i)=>[<line key={`v${i}`}x1={i+1}y1={0}x2={i+1}y2={c}stroke="var(--ink)"strokeWidth={.03}opacity={.25}/>,<line key={`h${i}`}x1={0}y1={i+1}x2={c}y2={i+1}stroke="var(--ink)"strokeWidth={.03}opacity={.25}/>])}{f.map(i=><rect key={i}x={i%c}y={Math.floor(i/c)}width={1}height={1}fill={p[0]}opacity={1}/>)}</svg>;
+}
+function PlateBars({seed:s,palette:p}){
+  const b=14+Math.floor(rnd(s,2)*10);
+  return<svg viewBox={`0 0 ${b} 100`}preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={b}height={100}fill="var(--paper-2)"/>{Array.from({length:b}).map((_,i)=>{const h=8+rnd(s,20+i)*90;return<rect key={i}x={i+.1}y={100-h}width={.8}height={h}fill={i%7===0?p[1]:p[0]}opacity={1}/>;})}</svg>;
+}
+function PlateContour({seed:s,palette:p}){
+  const paths=[];for(let l=0;l<8;l++){const amp=6+rnd(s,30+l)*14,freq=1+rnd(s,40+l)*3,yo=10+l*11;let d=`M 0 ${yo}`;for(let x=0;x<=100;x+=2)d+=` L ${x} ${yo+Math.sin((x/100)*Math.PI*freq+rnd(s,50+l)*6)*amp*.3}`;paths.push(d);}
+  return<svg viewBox="0 0 100 100"preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={100}height={100}fill="var(--paper-2)"/>{paths.map((d,i)=><path key={i}d={d}stroke={p[0]}strokeWidth={.55}fill="none"opacity={.75+i*.03}/>)}</svg>;
+}
+function PlateDots({seed:s,palette:p}){
+  const n=100+Math.floor(rnd(s,3)*140);
+  return<svg viewBox="0 0 100 100"preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={100}height={100}fill="var(--paper-2)"/>{Array.from({length:n},(_,i)=><circle key={i}cx={rnd(s,60+i)*100}cy={rnd(s,160+i)*100}r={.4+rnd(s,260+i)*1.8}fill={p[0]}opacity={.9}/>)}</svg>;
+}
+function PlateCrosshair({seed:s,palette:p}){
+  const cx=30+rnd(s,4)*40,cy=30+rnd(s,5)*40;
+  const targets=Array.from({length:3+Math.floor(rnd(s,6)*4)},(_,i)=>({x:rnd(s,70+i)*100,y:rnd(s,170+i)*100,r:1+rnd(s,270+i)*2}));
+  return<svg viewBox="0 0 100 100"preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={100}height={100}fill="var(--paper-2)"/>{Array.from({length:9}).map((_,i)=>[<line key={`v${i}`}x1={(i+1)*10}y1={0}x2={(i+1)*10}y2={100}stroke="var(--ink)"strokeWidth={.1}opacity={.15}/>,<line key={`h${i}`}x1={0}y1={(i+1)*10}x2={100}y2={(i+1)*10}stroke="var(--ink)"strokeWidth={.1}opacity={.15}/>])}{targets.map((t,i)=><circle key={i}cx={t.x}cy={t.y}r={t.r}stroke={p[0]}strokeWidth={.3}fill="none"opacity={.8}/>)}<line x1={cx}y1={0}x2={cx}y2={100}stroke={p[1]}strokeWidth={.4}/><line x1={0}y1={cy}x2={100}y2={cy}stroke={p[1]}strokeWidth={.4}/><circle cx={cx}cy={cy}r={5}stroke={p[1]}strokeWidth={.5}fill="none"/><circle cx={cx}cy={cy}r={1.5}fill={p[1]}/></svg>;
+}
+function PlateWaveform({seed:s,palette:p}){
+  const S=80,bars=Array.from({length:S},(_,i)=>{const t=i/S;return 10+Math.abs(Math.sin(t*Math.PI*(2+rnd(s,7)*6)))*(0.4+rnd(s,300+i)*.6)*(1-Math.abs(t-.5))*80;});
+  return<svg viewBox={`0 0 ${S} 100`}preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={S}height={100}fill="var(--paper-2)"/><line x1={0}y1={50}x2={S}y2={50}stroke="var(--ink)"strokeWidth={.1}opacity={.25}/>{bars.map((h,i)=><rect key={i}x={i+.2}y={50-h/2}width={.6}height={h}fill={p[0]}opacity={1}/>)}</svg>;
+}
+function PlateIsobars({seed:s,palette:p}){
+  const rings=5+Math.floor(rnd(s,10)*4),cx=30+rnd(s,11)*40,cy=30+rnd(s,12)*40;
+  return<svg viewBox="0 0 100 100"preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={100}height={100}fill="var(--paper-2)"/>{Array.from({length:rings}).map((_,i)=>{const rx=(i+1)*(8+rnd(s,600+i)*4),ry=rx*(.6+rnd(s,700+i)*.6);return<ellipse key={i}cx={cx}cy={cy}rx={rx}ry={ry}transform={`rotate(${rnd(s,800+i)*60} ${cx} ${cy})`}stroke={p[0]}strokeWidth={.45}fill="none"opacity={.85}/>;})}</svg>;
+}
+function PlateScatter({seed:s,palette:p}){
+  const slope=.5+rnd(s,16)*.7,pts=Array.from({length:40},(_,i)=>({x:rnd(s,1500+i)*90+5,y:Math.max(5,Math.min(95,95-((rnd(s,1500+i)*90+5)*slope+(rnd(s,1600+i)-.5)*30)))}));
+  return<svg viewBox="0 0 100 100"preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={100}height={100}fill="var(--paper-2)"/><line x1={5}y1={95}x2={95}y2={95}stroke="var(--ink)"strokeWidth={.2}opacity={.5}/><line x1={5}y1={5}x2={5}y2={95}stroke="var(--ink)"strokeWidth={.2}opacity={.5}/><line x1={5}y1={95-5*slope}x2={95}y2={95-95*slope}stroke={p[1]}strokeWidth={.3}strokeDasharray="1.5 1"opacity={.7}/>{pts.map((pt,i)=><circle key={i}cx={pt.x}cy={pt.y}r={1.4}fill={p[0]}opacity={.95}/>)}</svg>;
+}
+function PlateBraille({seed:s,palette:p}){
+  const rows=10,cols=14;
+  return<svg viewBox={`0 0 ${cols} ${rows}`}preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={cols}height={rows}fill="var(--paper-2)"/>{Array.from({length:rows*cols}).map((_,i)=>{if(rnd(s,1700+i)>.48)return null;return<circle key={i}cx={i%cols+.5}cy={Math.floor(i/cols)+.5}r={.3}fill={p[0]}opacity={1}/>;})}</svg>;
+}
+function PlateCircuit({seed:s,palette:p}){
+  const nodes=Array.from({length:8+Math.floor(rnd(s,90)*6)},(_,i)=>({x:10+rnd(s,2000+i)*80,y:10+rnd(s,2100+i)*80}));
+  return<svg viewBox="0 0 100 100"preserveAspectRatio="none"style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><rect width={100}height={100}fill="var(--paper-2)"/>{nodes.slice(0,-1).map((n,i)=>{const nx=nodes[i+1],mid=rnd(s,2200+i)>.5;return<polyline key={i}points={`${n.x},${n.y} ${mid?nx.x:n.x},${mid?n.y:nx.y} ${nx.x},${nx.y}`}stroke={p[0]}strokeWidth={.45}fill="none"opacity={.85}/>;})}{nodes.map((n,i)=><circle key={i}cx={n.x}cy={n.y}r={1.6}fill={i%3===0?p[1]:p[0]}opacity={1}/>)}</svg>;
+}
+const PK=[PlateGrid,PlateBars,PlateContour,PlateDots,PlateCrosshair,PlateWaveform,PlateIsobars,PlateScatter,PlateBraille,PlateCircuit];
+function Plate({a}){const s=a.index||1,R=PK[s%PK.length];return<div style={{position:'absolute',inset:0,background:'var(--paper-2)'}}><R seed={s}palette={a.palette}/></div>;}
+
+// COMPONENTS
+function EvCell({a,sel,onClick,delay=0}){
+  return(
+    <div className={`ev-cell${sel?' sel':''}`}style={{animationDelay:delay+'ms'}}onClick={onClick}>
+      <div className="ev-plate"><div className="ev-art"><Plate a={a}/></div></div>
+      <div className="ev-tag">
+        <span className="ev-tag-id">{a.id}</span>
+        <span>{KS[a.kind]}</span>
+      </div>
+    </div>
+  );
+}
+
+const BUILD={production:'Horizon Protocol · S2',prop:'Hero Blaster Mk.II',phases:['SCULPT','MOLD','CAST','PAINT','FINISH'],currentPhase:4,pct:84,due:'2026-05-12'};
+
+function TermBar({page,setPage}){
+  const shortcuts=[
+    {k:'I',label:'Index',target:'index'},
+    {k:'C',label:'Catalog',target:'catalog'},
+    {k:'R',label:'Record',target:'record'},
+    {k:'O',label:'Operator',target:'operator'},
+  ];
+  useEffect(()=>{
+    const h=e=>{
+      if(e.ctrlKey||e.metaKey||e.altKey)return;
+      const m=shortcuts.find(s=>s.k===e.key.toUpperCase());
+      if(m)setPage(m.target);
+    };
+    window.addEventListener('keydown',h);
+    return()=>window.removeEventListener('keydown',h);
+  },[setPage]);
+  return(
+    <div className="term-bar">
+      {shortcuts.map((s,i)=>(
+        <React.Fragment key={s.k}>
+          {i>0&&<span className="tsep"/>}
+          <span onClick={()=>setPage(s.target)}style={{cursor:'pointer',display:'flex',alignItems:'center'}}>
+            <span className="tk">[{s.k}]</span>{s.label}
+          </span>
+        </React.Fragment>
+      ))}
+      <span className="tsep"/>
+      <span><span className="tk">[/]</span>Search</span>
+      <span className="tver">◈ JP-ARCHIVE v1.0 · {new Date().getFullYear()}</span>
+    </div>
+  );
+}
+
+function Nav({page,setPage,recId,dark,toggleDark}){
+  const [now,setNow]=useState(()=>new Date());
+  useEffect(()=>{const t=setInterval(()=>setNow(new Date()),1000);return()=>clearInterval(t);},[]);
+  const tabs=[{id:'index',l:'Index'},{id:'catalog',l:'Catalog'},{id:'record',l:recId?`Record · ${recId}`:'Record'},{id:'operator',l:'Operator'}];
+  return(
+    <nav className="nav">
+      <span className="nav-mark">◈</span>
+      <span className="nav-id">Archive · JP</span>
+      <span className="nav-sep"/>
+      <div className="nav-tabs">{tabs.map(t=><button key={t.id}className={`nav-tab${page===t.id?' on':''}`}onClick={()=>setPage(t.id)}>{t.l}</button>)}</div>
+      <span className="nav-sp"/>
+      <span className="nav-utc">{now.toISOString().replace('T',' ').slice(0,19)}Z</span>
+      <button className="nav-theme"onClick={toggleDark}>{dark?'◑ Light':'◑ Dark'}</button>
+    </nav>
+  );
+}
+
+function PageIndex({onGo,onCatalog}){
+  return(
+    <div className="pw idx-wrap">
+      <div className="idx-left">
+        <div style={{paddingBottom:14,borderBottom:'1px solid var(--rule)',marginBottom:14}}>
+          <div style={{fontFamily:'var(--f-m)',fontSize:8,letterSpacing:'.2em',textTransform:'uppercase',color:'var(--muted)',marginBottom:9}}>JP · 000 · Brooklyn NY</div>
+          <div className="idx-name">Joshua<br/>Powell</div>
+          <div style={{fontFamily:'var(--f-m)',fontSize:9,letterSpacing:'.14em',textTransform:'uppercase',color:'var(--muted)',marginTop:10}}>Prop Fabricator</div>
+        </div>
+        <div>
+          {[['Props','040'],['Productions','010'],['Kinds','006'],['Years Active','08'],['Build','84%']].map(([k,v])=>(
+            <div key={k}className="msr"><span className="msr-k">{k}</span><span className="msr-v">{v}</span></div>
+          ))}
+        </div>
+        <div style={{marginTop:'auto',paddingTop:14,borderTop:'1px solid var(--rule)'}}>
+          <div style={{fontFamily:'var(--f-m)',fontSize:8,letterSpacing:'.16em',textTransform:'uppercase',color:'var(--muted)',marginBottom:8,display:'flex',justifyContent:'space-between'}}>
+            <span>Active Build</span><span className="d-live">● Live</span>
+          </div>
+          <div style={{fontFamily:'var(--f-m)',fontSize:8,letterSpacing:'.1em',color:'var(--muted)',textTransform:'uppercase',marginBottom:3}}>{BUILD.production}</div>
+          <div style={{fontFamily:'var(--f-d)',fontWeight:500,fontSize:14,letterSpacing:'-.02em',marginBottom:9}}>{BUILD.prop}</div>
+          <div className="d-segs"style={{marginBottom:8}}>
+            {BUILD.phases.map((p,i)=><div key={p}className={`d-seg${i<BUILD.currentPhase?' done':i===BUILD.currentPhase?' act':' todo'}`}>{p}</div>)}
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+            <span style={{fontFamily:'var(--f-m)',fontSize:8,letterSpacing:'.1em',textTransform:'uppercase',color:'var(--muted)'}}>Due · {BUILD.due}</span>
+            <span style={{fontFamily:'var(--f-d)',fontWeight:500,fontSize:28,letterSpacing:'-.055em',lineHeight:1}}>{BUILD.pct}%</span>
+          </div>
+        </div>
+      </div>
+      <div className="idx-right">
+        <div className="gal-hdr">
+          <span>Prop Catalog</span>
+          <button className="chip"style={{padding:'3px 10px',fontSize:9}}onClick={onCatalog}>Browse all 040 →</button>
+        </div>
+        <div className="gal-grid">
+          {ARTIFACTS.map((a,i)=>(
+            <div key={a.id}className="gal-c"onClick={()=>onGo(a)}style={{animationDelay:i*6+'ms',animation:'evi .35s cubic-bezier(.2,.7,.2,1) both'}}>
+              <div style={{position:'absolute',inset:0}}><Plate a={a}/></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PageCatalog({sel,onSelect}){
+  const [q,setQ]=useState('');
+  const [kind,setKind]=useState(null);
+  const [year,setYear]=useState(null);
+  const [status,setStatus]=useState(null);
+  const kindCounts=useMemo(()=>{const c={};ARTIFACTS.forEach(a=>c[a.kind]=(c[a.kind]||0)+1);return c;},[]);
+  const yearCounts=useMemo(()=>{const c={};ARTIFACTS.forEach(a=>c[a.year]=(c[a.year]||0)+1);return c;},[]);
+  const statusCounts=useMemo(()=>{const c={};ARTIFACTS.forEach(a=>c[a.status]=(c[a.status]||0)+1);return c;},[]);
+  const filtered=useMemo(()=>ARTIFACTS.filter(a=>{
+    if(kind&&kind!==a.kind)return false;
+    if(year&&year!==a.year)return false;
+    if(status&&status!==a.status)return false;
+    if(q){const Q=q.toLowerCase();return[a.id,a.title,a.material,a.production,a.kind].some(v=>String(v).toLowerCase().includes(Q));}
+    return true;
+  }),[q,kind,year,status]);
+  const hasFilter=kind||year||status||q;
+  return(
+    <div className="pw cat-wrap">
+      <div className="cat-side">
+        <div className="cs-sec">
+          <div className="cs-h"><span>Kind</span><span>{pad(Object.keys(kindCounts).length,2)}</span></div>
+          {Object.entries(kindCounts).sort().map(([k,c])=>(
+            <div key={k}className={`cs-item${kind===k?' on':''}`}onClick={()=>setKind(kind===k?null:k)}>
+              <span><span className="cs-sym">{KS[k]}</span>{k}</span>
+              <span className="cs-c">{pad(c,2)}</span>
+            </div>
+          ))}
+        </div>
+        <div className="cs-sec">
+          <div className="cs-h"><span>Year</span><span>{pad(Object.keys(yearCounts).length,2)}</span></div>
+          {Object.entries(yearCounts).sort().map(([y,c])=>(
+            <div key={y}className={`cs-item${year===+y?' on':''}`}onClick={()=>setYear(year===+y?null:+y)}>
+              <span>{y}</span>
+              <span className="cs-c">{pad(c,2)}</span>
+            </div>
+          ))}
+        </div>
+        <div className="cs-sec">
+          <div className="cs-h"><span>Status</span><span>{pad(Object.keys(statusCounts).length,2)}</span></div>
+          {Object.entries(statusCounts).sort().map(([s,c])=>(
+            <div key={s}className={`cs-item${status===s?' on':''}`}onClick={()=>setStatus(status===s?null:s)}>
+              <span>{s}</span>
+              <span className="cs-c">{pad(c,2)}</span>
+            </div>
+          ))}
+        </div>
+        <div className="cs-stat">
+          <span className="cs-stat-v">{pad(filtered.length,3)}</span>
+          <span className="cs-stat-k">/ {pad(ARTIFACTS.length,3)} shown</span>
+        </div>
+        <input className="cs-q"type="text"value={q}onChange={e=>setQ(e.target.value)}placeholder="Search…"/>
+        {hasFilter&&<button className="cs-clear"onClick={()=>{setKind(null);setYear(null);setStatus(null);setQ('');}}>Clear filters ✕</button>}
+      </div>
+      <div className="cat-main">
+        <div className="cat-topbar">
+          <span className="ctb-l">Build Archive</span>
+          <span>·</span>
+          <span>{kind?`${KS[kind]} ${kind}`:'All kinds'}</span>
+          {year&&<><span>·</span><span>{year}</span></>}
+          {status&&<><span>·</span><span>{status}</span></>}
+          <span style={{flex:1}}/>
+          <span>{pad(filtered.length,3)} / {pad(ARTIFACTS.length,3)}</span>
+        </div>
+        <div className="ev-grid">
+          {filtered.map((a,i)=><EvCell key={a.id}a={a}sel={sel?.id===a.id}delay={i*10}onClick={()=>onSelect(a)}/>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PageRecord({sel,onPrev,onNext,onBack,onSelect}){
+  if(!sel)return<div className="pw"><div className="sh"><span className="sl">No record selected</span></div><button className="chip"onClick={onBack}>← Back to Catalog</button></div>;
+  const idx=ARTIFACTS.findIndex(a=>a.id===sel.id);
+  const related=ARTIFACTS.filter(a=>a.id!==sel.id&&(a.production===sel.production||a.kind===sel.kind)).slice(0,14);
+  return(
+    <div className="pw">
+      <div className="rec-nav">
+        <button onClick={onBack}>← Catalog</button>
+        <span style={{width:1,height:12,background:'var(--rule-2)',display:'inline-block',flexShrink:0}}/>
+        <span className="rn-id">{sel.catNo}</span>
+        <span className="rn-sp"/>
+        <button onClick={onPrev}disabled={idx===0}>← Prev</button>
+        <span className="rn-pos">{pad(idx+1,2)} / {pad(ARTIFACTS.length,2)}</span>
+        <button onClick={onNext}disabled={idx===ARTIFACTS.length-1}>Next →</button>
+      </div>
+
+      <div className="rec-layout">
+        <div className="rec-plate">
+          <div className="rp-art"><Plate a={sel}/></div>
+          <div className="rp-bot">
+            <div>
+              <div>{sel.id} · {sel.title}</div>
+              <div style={{opacity:.55,marginTop:2,fontSize:8,letterSpacing:'.08em'}}>{sel.catNo}</div>
+            </div>
+            <div className="rp-bot-r">
+              <div>{sel.production}</div>
+              <div style={{opacity:.55,marginTop:2,fontSize:8}}>{sel.year}</div>
+            </div>
+          </div>
+        </div>
+        <div className="rec-side-panel">
+          <div className="rsh">
+            <div className="rsh-sym">{KS[sel.kind]}</div>
+            <div>
+              <div className="rsh-kind">{sel.kind}</div>
+              <div className="rsh-title">{sel.title}</div>
+              <div className="rsh-badge">{sel.status}</div>
+            </div>
+          </div>
+          <div style={{marginBottom:10}}>
+            {[['Cat. No.',sel.catNo],['Year',String(sel.year)],['Production',sel.production],['Material',sel.material],['Finish',sel.finish],['Dimensions',sel.dims]].map(([k,v])=>(
+              <div key={k}className="tgl-row">
+                <span className="tgl-k">{k}</span>
+                <span className="tgl-v">{v}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{marginBottom:12}}>
+            <div style={{fontFamily:'var(--f-m)',fontSize:8.5,letterSpacing:'.14em',textTransform:'uppercase',color:'var(--muted)',marginBottom:8}}>Material Palette</div>
+            <div className="rec-pal">
+              {sel.palette.map((c,i)=>(
+                <div key={i}style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
+                  <div className="rec-pal-chip"style={{background:c}}/>
+                  <div className="rec-pal-hex">{c.toUpperCase()}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {sel.note&&(
+            <div>
+              <div className="rec-note-label">Build Note</div>
+              <div className="rec-note">{sel.note}</div>
+            </div>
+          )}
+        </div>
+      </div>
+      {related.length>0&&(
+        <div className="rec-rel">
+          <div className="rec-rel-h">Related<b>{sel.kind} / {sel.production}</b></div>
+          <div className="rec-rel-grid">
+            {related.map(a=>(
+              <div key={a.id}className="rec-rel-c"onClick={()=>onSelect&&onSelect(a)}title={`${a.id} · ${a.title}`}>
+                <Plate a={a}/>
+                <div className="rec-rel-c-tag">{a.id}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const SKILLS_DATA=[
+  {cat:'SOFTWARE',items:[{k:'Adobe Photoshop',v:94,t:'14Y'},{k:'Adobe Illustrator',v:92,t:'12Y'},{k:'Adobe InDesign',v:78,t:'09Y'},{k:'After Effects',v:71,t:'06Y'},{k:'Blender · 3D',v:82,t:'06Y'},{k:'Plasticity · CAD',v:58,t:'02Y'}]},
+  {cat:'CODE',items:[{k:'HTML / CSS',v:95,t:'11Y'},{k:'JavaScript / TS',v:88,t:'09Y'},{k:'React',v:85,t:'07Y'},{k:'Three.js / WebGL',v:64,t:'04Y'}]},
+];
+const CV_DATA=[
+  {yr:'2026',t:'Horizon Protocol S2 · Netflix',s:'Hero props · 6 pieces'},
+  {yr:'2025',t:'Denver Comic-Con · Featured Maker',s:'Commission showcase'},
+  {yr:'2025',t:'Ironclad · Feature Film',s:'Armor set · 2 heroes'},
+  {yr:'2024',t:'Neon Requiem · Indie Feature',s:'Set dressing package'},
+  {yr:'2023',t:'WonderCon · Convention Design',s:'Booth + set design'},
+  {yr:'2022',t:'The Variant · Short Film',s:'Hero blaster · full kit'},
+];
+
+function PageOperator(){
+  return(
+    <div className="pw">
+      <div className="sh"><span className="sl">Operator File</span><span className="sc">JP-000</span></div>
+      <div className="op-grid">
+        <div className="op-panel">
+          <div className="op-h">Skills &amp; Tools</div>
+          {SKILLS_DATA.map(g=>(
+            <div key={g.cat}style={{marginBottom:16}}>
+              <div className="sk-cat"style={{marginBottom:4}}>{g.cat}</div>
+              {g.items.map((s,i)=>(
+                <div key={s.k}className="tgl-row">
+                  <span className="tgl-k"style={{width:'auto',flex:1,fontFamily:'var(--f-m)',fontSize:'10.5px',textTransform:'none',letterSpacing:'normal',color:'var(--ink)'}}>{s.k}</span>
+                  <span style={{fontFamily:'var(--f-m)',fontSize:10,color:'var(--muted)',marginRight:8}}>{s.t}</span>
+                  <div className={`tgl-sw${s.v>=80?' on':''}`}><div className="tgl-dot"/></div>
+                  <span className="tgl-lab"style={{marginLeft:4,color:s.v>=80?'var(--ink)':'var(--faint)'}}>{s.v>=80?'ON':'—'}</span>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+        <div className="op-panel">
+          <div className="op-h">Credits &amp; Events</div>
+          {CV_DATA.map((r,i)=>(
+            <div key={i}className="cv-row">
+              <span className="cv-yr">{r.yr}</span>
+              <div><div className="cv-t">{r.t}</div><div className="cv-s">{r.s}</div></div>
+            </div>
+          ))}
+          <div style={{marginTop:14}}><button className="chip">Full credits →</button></div>
+        </div>
+        <div className="op-panel">
+          <div className="op-h">Contact</div>
+          <div className="op-name">Joshua<br/>Powell</div>
+          <div className="op-email">studio@joshuapowell.art</div>
+          <div className="op-meta">Brooklyn · NY 11222<br/>Mon—Fri · 09:00—17:00 EST<br/>@joshuapowell</div>
+          <div style={{marginTop:20,display:'flex',gap:8,flexWrap:'wrap'}}>
+            <button className="pill a">Get in touch →</button>
+            <button className="pill"><span className="d"/>Available</button>
+          </div>
+          <div style={{marginTop:16,fontFamily:'var(--f-m)',fontSize:10,lineHeight:1.7,color:'var(--muted)'}}>Film &amp; TV commissions, convention<br/>&amp; trade show design welcome.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [page,setPage]=useState('index');
+  const [sel,setSel]=useState(ARTIFACTS[0]);
+  const [dark,setDark]=useState(false);
+  useEffect(()=>{
+    if(dark)document.documentElement.setAttribute('data-dark','1');
+    else document.documentElement.removeAttribute('data-dark');
+  },[dark]);
+  const goRecord=a=>{setSel(a);setPage('record');};
+  const idx=ARTIFACTS.findIndex(a=>a.id===sel?.id);
+  const onPrev=()=>idx>0&&setSel(ARTIFACTS[idx-1]);
+  const onNext=()=>idx<ARTIFACTS.length-1&&setSel(ARTIFACTS[idx+1]);
+  return(
+    <div className="shell">
+      <Nav page={page}setPage={setPage}recId={sel?.id}dark={dark}toggleDark={()=>setDark(d=>!d)}/>
+      <div key={page}>
+        {page==='index'   &&<PageIndex    onGo={goRecord}onCatalog={()=>setPage('catalog')}/>}
+        {page==='catalog' &&<PageCatalog  sel={sel}onSelect={goRecord}/>}
+        {page==='record'  &&<PageRecord   sel={sel}onPrev={onPrev}onNext={onNext}onBack={()=>setPage('catalog')}onSelect={setSel}/>}
+        {page==='operator'&&<PageOperator/>}
+      </div>
+      <TermBar page={page}setPage={setPage}/>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body></html>

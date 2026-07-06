@@ -7,6 +7,20 @@
       "runtimeArgs": ["run", "dev:auto"],
       "port": 3001,
       "autoPort": true
+    },
+    {
+      "name": "signal-ambient",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "../POUR/signal-ambient", "run", "dev"],
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "business-card",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", "C:/Users/ROBOT/Desktop", "-p", "4747", "-c-1", "--silent"],
+      "port": 4747,
+      "autoPort": true
     }
   ]
 }
