@@ -26,7 +26,6 @@ export default async function IndexPage() {
       currentLabel="INDEX"
       next={[
         { label: 'CATALOG', href: '/catalog' },
-        { label: 'RECORD', href: '/record' },
         { label: 'OPERATOR', href: '/operator' },
       ]}
     >
@@ -104,15 +103,8 @@ export default async function IndexPage() {
                 <span className="idx-dir-v">{pad(artifactCount, 3)} Props</span>
                 <span className="idx-dir-arr">→</span>
               </Link>
-              <Link href="/record" className="idx-dir-row">
-                <span className="idx-dir-n">II.</span>
-                <span className="idx-dir-k">Record</span>
-                <span className="idx-dir-sep" />
-                <span className="idx-dir-v">Analysis Bay</span>
-                <span className="idx-dir-arr">→</span>
-              </Link>
               <Link href="/operator" className="idx-dir-row">
-                <span className="idx-dir-n">III.</span>
+                <span className="idx-dir-n">II.</span>
                 <span className="idx-dir-k">Operator</span>
                 <span className="idx-dir-sep" />
                 <span className="idx-dir-v">{pad(creditCount, 2)} Credits</span>

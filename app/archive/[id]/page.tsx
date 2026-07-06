@@ -4,6 +4,7 @@ import { readArtifacts } from '@/lib/artifacts-server';
 import { readUploads } from '@/lib/uploads-server';
 import { synthesizeUnclaimed } from '@/lib/combined-artifacts';
 import { Plate } from '@/components/Plate';
+import { ScanFrame } from '@/components/ScanFrame';
 import { ArchiveInlineEdit } from '@/components/ArchiveInlineEdit';
 import { ArchiveBackButton } from '@/components/ArchiveBackButton';
 import { pad } from '@/lib/kinds';
@@ -46,11 +47,13 @@ export default async function ArchivePage({ params }: { params: Promise<{ id: st
         <ArchiveBackButton />
         <div className="arch-plate-wrap">
           <div className="arch-plate">
+            <ScanFrame>
+              <Plate a={sel} fit="contain" size="full" priority />
+            </ScanFrame>
             <span className="arch-pc tl" />
             <span className="arch-pc tr" />
             <span className="arch-pc bl" />
             <span className="arch-pc br" />
-            <Plate a={sel} fit="contain" size="full" priority />
           </div>
           <div className="arch-plate-foot">
             <span className="arch-pf-k">{sel.id}</span>

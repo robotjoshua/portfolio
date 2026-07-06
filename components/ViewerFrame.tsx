@@ -6,7 +6,6 @@ type SideLink = { label: string; href: string; dir?: 'prev' | 'next' };
 const KANJI: Record<string, string> = {
   INDEX: '索引',
   CATALOG: '目録',
-  RECORD: '記録',
   OPERATOR: '作者',
   ARCHIVE: '保管',
 };
@@ -14,7 +13,6 @@ const KANJI: Record<string, string> = {
 const HANKO: Record<string, string> = {
   INDEX: '索',
   CATALOG: '録',
-  RECORD: '記',
   OPERATOR: '認',
   ARCHIVE: '蔵',
 };

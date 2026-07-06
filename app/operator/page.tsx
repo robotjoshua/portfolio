@@ -15,11 +15,8 @@ export default async function OperatorPage() {
       meta={identity.available ? 'AVAILABLE' : 'ON ASSIGNMENT'}
       date={nowLabel}
       currentLabel="OPERATOR"
-      prev={{ label: 'RECORD', href: '/record' }}
-      next={[
-        { label: 'INDEX', href: '/' },
-        { label: 'CATALOG', href: '/catalog' },
-      ]}
+      prev={{ label: 'CATALOG', href: '/catalog' }}
+      next={[{ label: 'INDEX', href: '/' }]}
     >
       <div className="op-grid">
         <div className="op-panel">

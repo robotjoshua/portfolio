@@ -54,10 +54,7 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
       date={nowLabel}
       currentLabel="CATALOG"
       prev={{ label: 'INDEX', href: '/' }}
-      next={[
-        { label: 'RECORD', href: '/record' },
-        { label: 'OPERATOR', href: '/operator' },
-      ]}
+      next={[{ label: 'OPERATOR', href: '/operator' }]}
     >
       <div className="cat-board">
         <div className="cat-filter-row">
