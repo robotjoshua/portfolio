@@ -62,7 +62,7 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
       <div className="cat-board">
         <div className="cat-filter-row">
           <div className="cat-f-group">
-            <span className="cat-f-label">Kind<i>カインド</i></span>
+            <span className="cat-f-label">Kind</span>
             <div className="cat-f-chips">
               {Object.entries(kindCounts).sort().map(([k, c]) => (
                 <button
@@ -79,7 +79,7 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
           </div>
           <span className="cat-f-divider" />
           <div className="cat-f-group">
-            <span className="cat-f-label">Year<i>ネン</i></span>
+            <span className="cat-f-label">Year</span>
             <div className="cat-f-chips">
               {Object.entries(yearCounts).sort().map(([y, c]) => (
                 <button
@@ -95,7 +95,7 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
           </div>
           <span className="cat-f-divider" />
           <div className="cat-f-group">
-            <span className="cat-f-label">Status<i>ステータス</i></span>
+            <span className="cat-f-label">Status</span>
             <div className="cat-f-chips">
               {Object.entries(statusCounts).sort().map(([s, c]) => (
                 <button
@@ -130,10 +130,9 @@ export function CatalogView({ artifacts }: { artifacts: Artifact[] }) {
           <span className="cat-foot-seq" aria-hidden>
             <span className="cat-foot-seq-k">
               <b>JP–SEQ</b>
-              <i>整理番号</i>
             </span>
             <span className="cat-foot-seq-v">
-              <NumTicker value={pad(filtered.length, 3)} />
+              <NumTicker value={pad(filtered.length, 3)} idle={false} />
               <span className="cat-foot-seq-sep">·</span>
               <NumTicker value={pad(artifacts.length, 3)} idle={false} />
               <span className="cat-foot-seq-sep">·</span>

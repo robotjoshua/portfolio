@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { readArtifacts } from '@/lib/artifacts-server';
 import { GalleryGrid } from '@/components/GalleryGrid';
-import { NumScramble } from '@/components/NumScramble';
 import { ViewerFrame } from '@/components/ViewerFrame';
 import { Rain8Bit } from '@/components/Rain8Bit';
 import { readProfile } from '@/lib/profile-server';
@@ -72,9 +71,7 @@ export default async function IndexPage() {
               <span className="idx-sec-i">◎</span>
               <span>
                 <b>In the Shop</b>
-                <i>作業中</i>
               </span>
-              <span className="idx-sec-live">● LIVE</span>
             </header>
             <div className="idx-shop">
               <div className="idx-shop-prod">{BUILD.production}</div>
@@ -98,7 +95,6 @@ export default async function IndexPage() {
               <span className="idx-sec-i">◇</span>
               <span>
                 <b>Directory</b>
-                <i>目次</i>
               </span>
             </header>
             <nav className="idx-dir">
@@ -106,9 +102,7 @@ export default async function IndexPage() {
                 <span className="idx-dir-n">I.</span>
                 <span className="idx-dir-k">Catalog</span>
                 <span className="idx-dir-sep" />
-                <span className="idx-dir-v">
-                  <NumScramble value={pad(artifactCount, 3)} durationMs={500} /> Props
-                </span>
+                <span className="idx-dir-v">{pad(artifactCount, 3)} Props</span>
                 <span className="idx-dir-arr">→</span>
               </Link>
               <Link href="/record" className="idx-dir-row">
@@ -122,9 +116,7 @@ export default async function IndexPage() {
                 <span className="idx-dir-n">III.</span>
                 <span className="idx-dir-k">Operator</span>
                 <span className="idx-dir-sep" />
-                <span className="idx-dir-v">
-                  <NumScramble value={pad(creditCount, 2)} durationMs={500} /> Credits
-                </span>
+                <span className="idx-dir-v">{pad(creditCount, 2)} Credits</span>
                 <span className="idx-dir-arr">→</span>
               </Link>
             </nav>
@@ -137,7 +129,7 @@ export default async function IndexPage() {
         <Link className="idx-contact-rail" href="/operator" aria-label="Operator">
           <span className="idx-contact-rail-k">
             <span className="idx-contact-rail-sym">▣</span>
-            Contact · 連絡
+            Contact
           </span>
           <span className="idx-contact-rail-arr">→</span>
         </Link>

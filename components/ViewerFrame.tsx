@@ -3,14 +3,6 @@ import type { ReactNode } from 'react';
 
 type SideLink = { label: string; href: string; dir?: 'prev' | 'next' };
 
-const KANA: Record<string, string> = {
-  INDEX: 'インデックス',
-  CATALOG: 'カタログ',
-  RECORD: 'レコード',
-  OPERATOR: 'オペレーター',
-  ARCHIVE: 'アーカイブ',
-};
-
 const KANJI: Record<string, string> = {
   INDEX: '索引',
   CATALOG: '目録',
@@ -48,7 +40,6 @@ export function ViewerFrame({
   children: ReactNode;
 }) {
   const key = currentLabel.toUpperCase();
-  const kana = KANA[key] ?? '';
   const kanji = KANJI[key] ?? '';
   const hanko = HANKO[key] ?? '◆';
   return (
@@ -64,7 +55,6 @@ export function ViewerFrame({
         <span className="vf-rule" />
         <span className="vf-pos">
           <b>{currentLabel}</b>
-          {kana && <i>{kana}</i>}
         </span>
         <span className="vf-rule" />
         {(next ?? []).map((n, i) => (

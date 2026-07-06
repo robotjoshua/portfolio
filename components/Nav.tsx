@@ -12,7 +12,7 @@ export function Nav({ recLabel }: { recLabel?: string }) {
 
   useEffect(() => {
     setNow(new Date());
-    const t = setInterval(() => setNow(new Date()), 1000);
+    const t = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(t);
   }, []);
 
@@ -24,11 +24,10 @@ export function Nav({ recLabel }: { recLabel?: string }) {
         <span className="nav-mark">◈</span>
         <span className="nav-id">
           <b>Archive · JP</b>
-          <i>アーカイブ</i>
         </span>
         <span className="nav-sp" />
         <span className="nav-utc">
-          {now ? now.toISOString().replace('T', ' ').slice(0, 19) + 'Z' : '\u00a0'}
+          {now ? now.toISOString().replace('T', ' ').slice(0, 16) + 'Z' : '\u00a0'}
         </span>
         <AmbientHum />
         <button
